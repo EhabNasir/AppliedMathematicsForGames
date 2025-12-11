@@ -8,9 +8,6 @@ Appearance::Appearance(Geometry geometry, Material material)
 Appearance::~Appearance()
 {
     _textureRV = nullptr;
-
-    if (_geometry.vertexBuffer) _geometry.vertexBuffer->Release();
-    if (_geometry.indexBuffer) _geometry.indexBuffer->Release();
 }
 
 void Appearance::Draw(ID3D11DeviceContext* context)

@@ -17,7 +17,7 @@ void Camera::Update()
 	XMFLOAT4 eye = XMFLOAT4(_eye.x, _eye.y, _eye.z, 1.0f);
 	XMFLOAT4 at = XMFLOAT4(_at.x, _at.y, _at.z, 1.0f);
 	XMFLOAT4 up = XMFLOAT4(_up.x, _up.y, _up.z, 0.0f);
-
+	
 	XMVECTOR EyeVector = XMLoadFloat4(&eye);
 	XMVECTOR AtVector = XMLoadFloat4(&at);
 	XMVECTOR UpVector = XMLoadFloat4(&up);

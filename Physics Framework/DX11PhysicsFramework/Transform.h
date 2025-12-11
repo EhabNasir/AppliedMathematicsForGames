@@ -8,6 +8,9 @@ using namespace std;
 class Transform
 {
 public:
+	Transform();
+	~Transform();
+
 	// Setters and Getters for position/rotation/scale
 	void SetPosition(XMFLOAT3 position) { _position = position; }
 	void SetPosition(float x, float y, float z) { _position.x = x; _position.y = y; _position.z = z; }
