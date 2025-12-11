@@ -4,26 +4,27 @@
 #include <d3d11_1.h>
 #include <string>
 #include "Transform.h"
+#include "Appearance.h"
 
 using namespace DirectX;
 using namespace std;
 
-struct Geometry
-{
-	ID3D11Buffer* vertexBuffer;
-	ID3D11Buffer* indexBuffer;
-	int numberOfIndices;
-
-	UINT vertexBufferStride;
-	UINT vertexBufferOffset;
-};
-
-struct Material
-{
-	XMFLOAT4 diffuse;
-	XMFLOAT4 ambient;
-	XMFLOAT4 specular;
-};
+//struct Geometry
+//{
+//	ID3D11Buffer* vertexBuffer;
+//	ID3D11Buffer* indexBuffer;
+//	int numberOfIndices;
+//
+//	UINT vertexBufferStride;
+//	UINT vertexBufferOffset;
+//};
+//
+//struct Material
+//{
+//	XMFLOAT4 diffuse;
+//	XMFLOAT4 ambient;
+//	XMFLOAT4 specular;
+//};
 
 class GameObject
 {
@@ -35,31 +36,17 @@ public:
 
 	void SetParent(GameObject * parent) { _parent = parent; }
 
-	//// Setters and Getters for position/rotation/scale
-	//void SetPosition(XMFLOAT3 position) { _position = position; }
-	//void SetPosition(float x, float y, float z) { _position.x = x; _position.y = y; _position.z = z; }
-
-	//XMFLOAT3 GetPosition() const { return _position; }
-
-	//void SetScale(XMFLOAT3 scale) { _scale = scale; }
-	//void SetScale(float x, float y, float z) { _scale.x = x; _scale.y = y; _scale.z = z; }
-
-	//XMFLOAT3 GetScale() const { return _scale; }
-
-	//void SetRotation(XMFLOAT3 rotation) { _rotation = rotation; }
-	//void SetRotation(float x, float y, float z) { _rotation.x = x; _rotation.y = y; _rotation.z = z; }
-
-	//XMFLOAT3 GetRotation() const { return _rotation; }
 	Transform* GetTransform() { return _transform; }
 
-	// Rendering information
-	Geometry GetGeometryData() const { return _geometry; }
-	Material GetMaterial() const { return _material; }
+	//// Rendering information
+	//Geometry GetGeometryData() const { return _geometry; }
+	//Material GetMaterial() const { return _material; }
 	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(&_world); }
 
-	void SetTextureRV(ID3D11ShaderResourceView * textureRV) { _textureRV = textureRV; }
-	ID3D11ShaderResourceView* const* GetTextureRV() { return &_textureRV; }
-	bool HasTexture() const { return _textureRV ? true : false; }
+	Appearance* GetAppearance() { return _appearance; }
+	//void SetTextureRV(ID3D11ShaderResourceView * textureRV) { _textureRV = textureRV; }
+	//ID3D11ShaderResourceView* const* GetTextureRV() { return &_textureRV; }
+	//bool HasTexture() const { return _textureRV ? true : false; }
 
 	void Update(float dt);
 	void Move(XMFLOAT3 direction);
@@ -69,16 +56,14 @@ private:
 	GameObject* _parent = nullptr;
 
 	Transform* _transform;
-	//XMFLOAT3 _position;
-	//XMFLOAT3 _rotation;
-	//XMFLOAT3 _scale;
 
 	string _type;
 	XMFLOAT4X4 _world;
 
-	Geometry _geometry;
-	Material _material;
+	Appearance* _appearance;
+	//Geometry _geometry;
+	//Material _material;
 
-	ID3D11ShaderResourceView* _textureRV = nullptr;
+	//ID3D11ShaderResourceView* _textureRV = nullptr;
 };
 
