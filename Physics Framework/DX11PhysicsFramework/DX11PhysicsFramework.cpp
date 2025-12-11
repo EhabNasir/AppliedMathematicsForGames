@@ -514,9 +514,6 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	noSpecMaterial.specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	GameObject* gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial);
-	//gameObject->SetPosition(0.0f, 0.0f, 0.0f);
-	//gameObject->SetScale(15.0f, 15.0f, 15.0f);
-	//gameObject->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
 	gameObject->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
