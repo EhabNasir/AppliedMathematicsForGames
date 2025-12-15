@@ -1,4 +1,5 @@
 #pragma once
+#define FPS60 1.0f/60.0f
 
 #include <windows.h>
 #include <d3d11_1.h>
@@ -10,6 +11,8 @@
 #include "Camera.h"
 #include "Structures.h"
 #include "OBJLoader.h"
+#include "Timer.h"
+#include <string>
 
 #include <vector>
 
@@ -72,6 +75,8 @@ private:
 
 	ID3D11RasterizerState* _CCWcullMode; //Counter Clockwise
 	ID3D11RasterizerState* _CWcullMode; //Clockwise
+
+	Timer timer;
 
 private:
 	HRESULT CreateWindowHandle(HINSTANCE hInstance, int nCmdShow);

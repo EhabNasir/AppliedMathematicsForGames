@@ -9,7 +9,7 @@ void Debug::PrintNumber(int _number)
 
 	sprintf_s(sz, "the number is %d \n", x);
 
-	OutputDebugStringA(sz);
+	//OutputDebugStringA(sz);
 
-	//x++;
+	x++;
 }

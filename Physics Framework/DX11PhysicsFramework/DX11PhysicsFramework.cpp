@@ -451,6 +451,9 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 {
 	HRESULT hr = S_OK;
 
+	//create timer
+	timer = Timer();
+
 	D3D11_BUFFER_DESC constantBufferDesc = {};
 	constantBufferDesc.ByteWidth = sizeof(ConstantBuffer);
 	constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -584,14 +587,24 @@ DX11PhysicsFramework::~DX11PhysicsFramework()
 void DX11PhysicsFramework::Update()
 {
 	//Static initializes this value only once    
-	static ULONGLONG frameStart = GetTickCount64();
+	//static ULONGLONG frameStart = GetTickCount64();
 
-	ULONGLONG frameNow = GetTickCount64();
-	float deltaTime = (frameNow - frameStart) / 1000.0f;
-	frameStart = frameNow;
+	//ULONGLONG frameNow = GetTickCount64();
+	//float deltaTime = (frameNow - frameStart) / 1000.0f;
+	//frameStart = frameNow;
 
-	static float simpleCount = 0.0f;
-	simpleCount += deltaTime;
+	//static float simpleCount = 0.0f;
+	//simpleCount += deltaTime;
+	
+	float deltaTime = timer.GetDeltaTime();
+	std::string deltaTimeString = std::to_string(deltaTime);
+
+	//float accumulator = 0.0f;
+	//accumulator += deltaTime;
+	//while (accumulator >= FPS60)
+	//{
+	//	OutputDebugStringA(deltaTimeString.c_str());
+	//}
 
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))
@@ -610,6 +623,7 @@ void DX11PhysicsFramework::Update()
 	{
 		_gameObjects[2]->Move(XMFLOAT3(0, 0, 0.02f));
 	}
+
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
 
