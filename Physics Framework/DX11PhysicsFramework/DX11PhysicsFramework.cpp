@@ -596,15 +596,6 @@ void DX11PhysicsFramework::Update()
 	//static float simpleCount = 0.0f;
 	//simpleCount += deltaTime;
 	
-	float deltaTime = timer.GetDeltaTime();
-	std::string deltaTimeString = std::to_string(deltaTime);
-
-	//float accumulator = 0.0f;
-	//accumulator += deltaTime;
-	//while (accumulator >= FPS60)
-	//{
-	//	OutputDebugStringA(deltaTimeString.c_str());
-	//}
 
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))
@@ -637,10 +628,24 @@ void DX11PhysicsFramework::Update()
 	_camera->SetPosition(cameraPos);
 	_camera->Update();
 
-	// Update objects
-	for (auto gameObject : _gameObjects)
+	float deltaTime = timer.GetDeltaTime();
+	std::string deltaTimeString = std::to_string(deltaTime);
+
+	timer.Tick();
+
+	accumulator += deltaTime;
+	while (accumulator >= FPS60)
 	{
-		gameObject->Update(deltaTime);
+		//OutputDebugStringA(deltaTimeString.c_str());
+		OutputDebugStringA((std::to_string(FPS60)).c_str());
+		// Update objects
+		for (auto gameObject : _gameObjects)
+		{
+			//gameObject->Update(deltaTime);
+			gameObject->Update(FPS60);
+		}
+
+		accumulator -= FPS60;
 	}
 }
 

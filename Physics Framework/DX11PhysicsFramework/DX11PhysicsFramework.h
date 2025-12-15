@@ -77,6 +77,7 @@ private:
 	ID3D11RasterizerState* _CWcullMode; //Clockwise
 
 	Timer timer;
+	float accumulator = 0.0f;
 
 private:
 	HRESULT CreateWindowHandle(HINSTANCE hInstance, int nCmdShow);
