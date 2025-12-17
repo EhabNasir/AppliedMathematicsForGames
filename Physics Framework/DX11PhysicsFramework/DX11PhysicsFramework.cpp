@@ -595,7 +595,7 @@ void DX11PhysicsFramework::Update()
 
 	//static float simpleCount = 0.0f;
 	//simpleCount += deltaTime;
-	
+	Debug::PrintArguments("My name is %i%s \n", 4, ".");
 
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))
