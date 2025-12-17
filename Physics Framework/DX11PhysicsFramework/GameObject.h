@@ -5,6 +5,7 @@
 #include <string>
 #include "Transform.h"
 #include "Appearance.h"
+#include "Systems/PhysicsComponent.h"
 
 using namespace DirectX;
 using namespace std;
@@ -20,11 +21,12 @@ public:
 	void SetParent(GameObject * parent) { _parent = parent; }
 
 	Transform* GetTransform() { return _transform; }
+	Appearance* GetAppearance() { return _appearance; }
+	PhysicsComponent* GetPhysics() { return m_physicsCompnonent; }
 
 	// Rendering information
 	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(&_world); }
 
-	Appearance* GetAppearance() { return _appearance; }
 
 	void Update(float dt);
 	void Move(XMFLOAT3 direction);
@@ -34,11 +36,12 @@ private:
 	GameObject* _parent = nullptr;
 
 	Transform* _transform;
+	Appearance* _appearance;
+	PhysicsComponent* m_physicsCompnonent;
 
 	string _type;
 	//XMFLOAT4X4 _world;
 	XMFLOAT4X4 _world;
 
-	Appearance* _appearance;
 };
 

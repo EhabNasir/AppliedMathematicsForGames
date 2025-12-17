@@ -596,6 +596,8 @@ void DX11PhysicsFramework::Update()
 	//static float simpleCount = 0.0f;
 	//simpleCount += deltaTime;
 	Debug::PrintArguments("My name is %i%s \n", 4, ".");
+	XMFLOAT3 velo = XMFLOAT3(0, 1, 0);
+	_gameObjects[1]->GetPhysics()->SetVelocity(velo);
 
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))

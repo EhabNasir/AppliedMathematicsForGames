@@ -8,6 +8,8 @@ GameObject::GameObject(string type, Geometry geometry, Material material) : _typ
 	_transform = new Transform;
 
 	_appearance = new Appearance(geometry, material);
+
+	m_physicsCompnonent = new PhysicsComponent(_transform);
 }
 
 GameObject::~GameObject()
@@ -21,8 +23,10 @@ GameObject::~GameObject()
 	_appearance = nullptr;
 }
 
-void GameObject::Update(float dt)
+void GameObject::Update(float _deltaTime)
 {
+	m_physicsCompnonent->Update(_deltaTime);
+
 	// Calculate world matrix
 	XMMATRIX scale = XMMatrixScaling(_transform->GetScale().x, _transform->GetScale().y, _transform->GetScale().z);
 	XMMATRIX rotation = XMMatrixRotationX(_transform->GetRotation().x) * XMMatrixRotationY(_transform->GetRotation().y) * XMMatrixRotationZ(_transform->GetRotation().z);
