@@ -23,6 +23,7 @@ public:
 	Transform* GetTransform() { return _transform; }
 	Appearance* GetAppearance() { return _appearance; }
 	PhysicsComponent* GetPhysics() { return m_physicsCompnonent; }
+	bool hasPhysics = false;
 
 	// Rendering information
 	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(&_world); }

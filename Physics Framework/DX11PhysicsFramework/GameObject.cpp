@@ -25,7 +25,8 @@ GameObject::~GameObject()
 
 void GameObject::Update(float _deltaTime)
 {
-	m_physicsCompnonent->Update(_deltaTime);
+	if(hasPhysics)
+		m_physicsCompnonent->Update(_deltaTime);
 
 	// Calculate world matrix
 	XMMATRIX scale = XMMatrixScaling(_transform->GetScale().x, _transform->GetScale().y, _transform->GetScale().z);
