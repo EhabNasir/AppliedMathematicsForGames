@@ -33,6 +33,8 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Systems\PhysicsComponent.h" />
+    <ClInclude Include="ParticleModel.h" />
+    <ClInclude Include="Systems\ParticleModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX11PhysicsFramework.cpp" />
@@ -51,6 +53,7 @@
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Systems\PhysicsComponent.cpp" />
+    <ClCompile Include="Systems\ParticleModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

@@ -8,10 +8,10 @@ class PhysicsComponent
 public:
 	PhysicsComponent(Transform* _transform);
 
-	void Update(float _deltaTime);
+	virtual void Update(float _deltaTime) = 0;
 
-	XMFLOAT3 GetVelocity() { return m_velocity; }
-	void SetVelocity(XMFLOAT3 _newVelocity);
+	virtual XMFLOAT3 GetVelocity() { return m_velocity; }
+	virtual void SetVelocity(XMFLOAT3 _newVelocity) { m_velocity = _newVelocity; }
 
 	bool accelarate = false;
 

@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "Appearance.h"
 #include "Systems/PhysicsComponent.h"
+#include "Systems/ParticleModel.h"
 
 using namespace DirectX;
 using namespace std;
@@ -22,7 +23,7 @@ public:
 
 	Transform* GetTransform() { return _transform; }
 	Appearance* GetAppearance() { return _appearance; }
-	PhysicsComponent* GetPhysics() { return m_physicsCompnonent; }
+	PhysicsComponent* GetPhysics() { return m_particleModel; }
 	bool hasPhysics = false;
 
 	// Rendering information
@@ -38,7 +39,7 @@ private:
 
 	Transform* _transform;
 	Appearance* _appearance;
-	PhysicsComponent* m_physicsCompnonent;
+	ParticleModel* m_particleModel;
 
 	string _type;
 	//XMFLOAT4X4 _world;

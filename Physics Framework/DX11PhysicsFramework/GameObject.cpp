@@ -9,7 +9,8 @@ GameObject::GameObject(string type, Geometry geometry, Material material) : _typ
 
 	_appearance = new Appearance(geometry, material);
 
-	m_physicsCompnonent = new PhysicsComponent(_transform);
+	//m_physicsCompnonent = new PhysicsComponent(_transform);
+	m_particleModel = new ParticleModel(_transform);
 }
 
 GameObject::~GameObject()
@@ -26,7 +27,7 @@ GameObject::~GameObject()
 void GameObject::Update(float _deltaTime)
 {
 	if(hasPhysics)
-		m_physicsCompnonent->Update(_deltaTime);
+		m_particleModel->Update(_deltaTime);
 
 	// Calculate world matrix
 	XMMATRIX scale = XMMatrixScaling(_transform->GetScale().x, _transform->GetScale().y, _transform->GetScale().z);
