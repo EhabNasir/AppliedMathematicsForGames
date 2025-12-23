@@ -2,7 +2,7 @@
 
 Transform::Transform()
 {
-	SetPosition(XMFLOAT3());
+	SetPosition(Vector3(0,0,0));
 	SetRotation(XMFLOAT3());
 	SetScale(XMFLOAT3(1.0f, 1.0f, 1.0f));
 }

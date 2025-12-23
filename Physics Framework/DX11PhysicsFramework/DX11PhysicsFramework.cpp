@@ -595,30 +595,28 @@ void DX11PhysicsFramework::Update()
 
 	//static float simpleCount = 0.0f;
 	//simpleCount += deltaTime;
-	Debug::PrintArguments("My name is %i%s \n", 4, ".");
-	XMFLOAT3 velo = XMFLOAT3(0, 1, 0);
+	//Debug::PrintArguments("My name is %i%s \n", 4, ".");
+
+	Vector3 velo = Vector3(0,1,0);
 
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))
 	{
 		_gameObjects[1]->hasPhysics = true;
-		_gameObjects[1]->GetPhysics()->SetVelocity(velo);
-		_gameObjects[1]->GetPhysics()->accelarate = true;
-		//_gameObjects[1]->Move(XMFLOAT3(0, 0, -0.02f));
+		_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 1, 0));
 	}
 	if (GetAsyncKeyState('2'))
 	{
-		_gameObjects[2]->hasPhysics = true;
-		_gameObjects[2]->GetPhysics()->SetVelocity(velo);
-		//_gameObjects[1]->Move(XMFLOAT3(0, 0, 0.02f));
+		_gameObjects[1]->hasPhysics = true;
+		_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, -1, 0));
 	}
 	if (GetAsyncKeyState('3'))
 	{
-		_gameObjects[2]->Move(XMFLOAT3(0, 0, -0.02f));
+		_gameObjects[2]->Move(Vector3(0, 0, -0.02f));
 	}
 	if (GetAsyncKeyState('4'))
 	{
-		_gameObjects[2]->Move(XMFLOAT3(0, 0, 0.02f));
+		_gameObjects[2]->Move(Vector3(0, 0, 0.02f));
 	}
 
 	// Update camera
@@ -643,7 +641,7 @@ void DX11PhysicsFramework::Update()
 	while (accumulator >= FPS60)
 	{
 		//OutputDebugStringA(deltaTimeString.c_str());
-		OutputDebugStringA((std::to_string(FPS60)).c_str());
+		//OutputDebugStringA((std::to_string(FPS60)).c_str());
 		// Update objects
 		for (auto gameObject : _gameObjects)
 		{

@@ -5,6 +5,7 @@
 #include <string>
 #include "Transform.h"
 #include "Appearance.h"
+#include "Vector3.h"
 #include "Systems/PhysicsComponent.h"
 #include "Systems/ParticleModel.h"
 
@@ -31,7 +32,7 @@ public:
 
 
 	void Update(float dt);
-	void Move(XMFLOAT3 direction);
+	void Move(Vector3 direction);
 	void Draw(ID3D11DeviceContext * pImmediateContext);
 
 private:

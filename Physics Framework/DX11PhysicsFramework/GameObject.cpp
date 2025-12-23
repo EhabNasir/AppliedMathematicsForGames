@@ -10,7 +10,7 @@ GameObject::GameObject(string type, Geometry geometry, Material material) : _typ
 	_appearance = new Appearance(geometry, material);
 
 	//m_physicsCompnonent = new PhysicsComponent(_transform);
-	m_particleModel = new ParticleModel(_transform);
+	m_particleModel = new ParticleModel(_transform, 1.0f);
 }
 
 GameObject::~GameObject()
@@ -42,11 +42,11 @@ void GameObject::Update(float _deltaTime)
 		XMStoreFloat4x4(&_world, this->GetWorldMatrix() * _parent->GetWorldMatrix());
 	}
 
-	Debug::PrintNumber(10);
+	//Debug::PrintNumber(10);
 	//OutputDebugStringA("hello\n");
 }
 
-void GameObject::Move(XMFLOAT3 direction)
+void GameObject::Move(Vector3 direction)
 {
 	_transform->SetPosition(_transform->GetPosition().x + direction.x,
 	_transform->GetPosition().y + direction.y, 
