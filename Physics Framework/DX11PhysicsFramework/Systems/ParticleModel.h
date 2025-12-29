@@ -12,4 +12,6 @@ public:
 	void SetVelocity(Vector3 _newVelocity) override;
 
 	void AddForce(Vector3 _force) override { m_netForce += _force; }
+
+	void SimulateGravity() override { if (isSimulatingGravity) AddForce(Vector3(0, -9.81f, 0)); }
 };

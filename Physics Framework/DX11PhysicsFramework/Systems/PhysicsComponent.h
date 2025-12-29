@@ -15,7 +15,12 @@ public:
 
 	virtual void AddForce(Vector3 _force) = 0 { m_netForce += _force; }
 
+	virtual	void SimulateGravity() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -9.81f, 0)); }
+	virtual	void SimulateDrag() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -9.81f, 0)); }
+	virtual	void SimulateFriction() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -9.81f, 0)); }
+
 	bool accelarate = false;
+	bool isSimulatingGravity = false;
 
 protected:
 	Transform* m_transform;

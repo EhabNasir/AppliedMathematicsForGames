@@ -8,6 +8,8 @@ ParticleModel::ParticleModel(Transform* _transform, float _mass) : PhysicsCompon
 
 void ParticleModel::Update(float _deltaTime)
 {
+    ParticleModel::SimulateGravity();
+
     Vector3 position = m_transform->GetPosition();
 
     m_acceleration = m_netForce / m_mass;
