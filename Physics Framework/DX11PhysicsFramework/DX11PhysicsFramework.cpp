@@ -603,13 +603,13 @@ void DX11PhysicsFramework::Update()
 	if (GetAsyncKeyState('1'))
 	{
 		_gameObjects[1]->hasPhysics = true;
-		_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 1, 0));
-		_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
+		_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, 1));
+		//_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
 	}
 	if (GetAsyncKeyState('2'))
 	{
 		_gameObjects[1]->hasPhysics = true;
-		_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, -1, 0));
+		_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, -1));
 	}
 	if (GetAsyncKeyState('3'))
 	{

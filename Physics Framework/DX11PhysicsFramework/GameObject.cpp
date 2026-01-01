@@ -10,7 +10,7 @@ GameObject::GameObject(string type, Geometry geometry, Material material) : _typ
 	_appearance = new Appearance(geometry, material);
 
 	//m_physicsCompnonent = new PhysicsComponent(_transform);
-	m_particleModel = new ParticleModel(_transform, 1.0f);
+	m_particleModel = new ParticleModel(_transform, 100.0f);
 }
 
 GameObject::~GameObject()

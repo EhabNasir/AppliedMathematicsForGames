@@ -15,8 +15,8 @@ public:
 
 	virtual void AddForce(Vector3 _force) = 0 { m_netForce += _force; }
 
-	virtual	void SimulateGravity() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -9.81f, 0)); }
-	virtual	void SimulateDrag() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -9.81f, 0)); }
+	virtual	void SimulateGravity() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -m_gravitationalConstant, 0)); }
+	virtual	Vector3 SimulateDrag() = 0;
 	virtual	void SimulateFriction() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -9.81f, 0)); }
 
 	bool accelarate = false;
@@ -25,6 +25,8 @@ public:
 protected:
 	Transform* m_transform;
 	float m_mass;
+	float m_gravitationalConstant = 9.8f;
+	float m_terminalVelocity = 15.0f;
 
 	Vector3 m_velocity;
 	Vector3 m_acceleration;

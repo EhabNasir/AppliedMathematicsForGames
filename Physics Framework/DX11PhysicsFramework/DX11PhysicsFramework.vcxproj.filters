@@ -33,7 +33,6 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Systems\PhysicsComponent.h" />
-    <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="Systems\ParticleModel.h" />
   </ItemGroup>
   <ItemGroup>

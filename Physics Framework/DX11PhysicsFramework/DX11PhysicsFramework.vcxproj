@@ -398,7 +398,6 @@
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="OBJLoader.h" />
-    <ClInclude Include="ParticleModel.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Structures.h" />
     <ClInclude Include="Systems\ParticleModel.h" />
