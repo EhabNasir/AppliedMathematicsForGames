@@ -17,5 +17,5 @@ public:
 
 	Vector3 SimulateDrag() override;
 
-	void SimulateFriction() override { if (isSimulatingGravity) AddForce(Vector3(0, -9.81f, 0)); }
+	void SimulateFriction(bool _hasContact, float _deltaTime) override;
 };

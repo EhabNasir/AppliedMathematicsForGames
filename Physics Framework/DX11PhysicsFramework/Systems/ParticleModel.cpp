@@ -12,6 +12,7 @@ void ParticleModel::Update(float _deltaTime)
     //Add forces
     ParticleModel::SimulateGravity();
     AddForce(SimulateDrag());
+    //SimulateFriction(true, _deltaTime);
 
     Vector3 position = m_transform->GetPosition();
 
@@ -40,6 +41,9 @@ Vector3 ParticleModel::SimulateDrag()
 {
     Vector3 v = GetVelocity();
     float speed = v.Magnitude();
+    if (speed <= 0.0001f)
+        return Vector3(0, 0, 0);
+
     v.Normalize();
 
     float p = 0.3f;
@@ -51,4 +55,38 @@ Vector3 ParticleModel::SimulateDrag()
     Vector3 dragForce = -v * dragMagnitude;
 
     return dragForce;
+}
+
+void ParticleModel::SimulateFriction(bool _hasContact, float deltaTime)
+{
+    if (_hasContact)
+    {
+        Vector3 v = GetVelocity();
+        float speed = v.Magnitude();
+
+        if (speed > 0.1f)
+        {
+            Vector3 dir = v;
+            dir.Normalize();
+
+            float normal = m_mass * m_gravitationalConstant;
+            float kineticFrictionCoeff = 9.0f;
+
+            Vector3 frictionForce = -dir * (kineticFrictionCoeff * normal);
+
+            float frictionAcceleration = frictionForce.Magnitude() / m_mass;
+
+            float dv = frictionAcceleration * deltaTime;
+
+            if (dv >= speed)
+            {
+                m_velocity = Vector3(0, 0, 0);
+            }
+            else
+            {
+                AddForce(frictionForce);
+            }
+        }
+    }
+
 }
