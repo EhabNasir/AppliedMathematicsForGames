@@ -9,6 +9,12 @@ ParticleModel::ParticleModel(Transform* _transform, float _mass) : PhysicsCompon
 
 void ParticleModel::Update(float _deltaTime)
 {
+    m_lifeTime += _deltaTime;
+    if (m_lifeTime > m_resetTime)
+    {
+        Reset();
+    }
+
     //Add forces
     ParticleModel::SimulateGravity();
     AddForce(SimulateDrag());
@@ -88,5 +94,20 @@ void ParticleModel::SimulateFriction(bool _hasContact, float deltaTime)
             }
         }
     }
+}
+
+void ParticleModel::LinearStabiliser(Vector3 _desiredVelocity)
+{
+    Vector3 unwantedVelocity = m_velocity - _desiredVelocity;
+
+    Vector3 error = -unwantedVelocity;
+
+    Vector3 stabiliserForce = error * 0.3;
+
+    AddForce(stabiliserForce);
+}
+
+void Reset()
+{
 
 }

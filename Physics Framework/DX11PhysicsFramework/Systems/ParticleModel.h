@@ -18,4 +18,12 @@ public:
 	Vector3 SimulateDrag() override;
 
 	void SimulateFriction(bool _hasContact, float _deltaTime) override;
+
+	void LinearStabiliser(Vector3 _desiredVelocity) override;
+
+private:
+	Vector3 m_startPosition;
+	float m_lifeTime;
+	float m_resetTime;
+	bool m_gravityInverted;
 };

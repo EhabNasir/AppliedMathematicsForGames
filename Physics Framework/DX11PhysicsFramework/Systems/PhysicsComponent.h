@@ -18,6 +18,7 @@ public:
 	virtual	void SimulateGravity() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -m_gravitationalConstant, 0)); }
 	virtual	Vector3 SimulateDrag() = 0;
 	virtual	void SimulateFriction(bool _hasContact, float _deltaTime) = 0;
+	virtual void LinearStabiliser(Vector3 _desiredVelocity) = 0;
 
 	bool accelarate = false;
 	bool isSimulatingGravity = false;
