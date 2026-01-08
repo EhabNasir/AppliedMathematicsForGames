@@ -1,22 +1,17 @@
 #include <cmath>
-#include "ParticleModel.h"
+
+#include "RigidbodyModel.h"
 #include "../Debug.h"
 
-ParticleModel::ParticleModel(Transform* _transform, float _mass) : PhysicsComponent(_transform, _mass)
+RigidBodyModel::RigidBodyModel(Transform* _transform, float _mass) : PhysicsComponent(_transform, _mass)
 {
 
 }
 
-void ParticleModel::Update(float _deltaTime)
+void RigidBodyModel::Update(float _deltaTime)
 {
-    m_lifeTime += _deltaTime;
-    if (m_lifeTime > m_resetTime)
-    {
-        //Reset();
-    }
-
     //Add forces
-    ParticleModel::SimulateGravity();
+    RigidBodyModel::SimulateGravity();
     AddForce(SimulateDrag());
     //SimulateFriction(true, _deltaTime);
 
@@ -38,12 +33,12 @@ void ParticleModel::Update(float _deltaTime)
     m_acceleration = Vector3(0, 0, 0);
 }
 
-void ParticleModel::SetVelocity(Vector3 _newVelocity)
+void RigidBodyModel::SetVelocity(Vector3 _newVelocity)
 {
     m_velocity = _newVelocity;
 }
 
-Vector3 ParticleModel::SimulateDrag()
+Vector3 RigidBodyModel::SimulateDrag()
 {
     Vector3 v = GetVelocity();
     float speed = v.Magnitude();
@@ -63,7 +58,7 @@ Vector3 ParticleModel::SimulateDrag()
     return dragForce;
 }
 
-void ParticleModel::SimulateFriction(bool _hasContact, float deltaTime)
+void RigidBodyModel::SimulateFriction(bool _hasContact, float deltaTime)
 {
     if (_hasContact)
     {
@@ -96,7 +91,7 @@ void ParticleModel::SimulateFriction(bool _hasContact, float deltaTime)
     }
 }
 
-void ParticleModel::LinearStabiliser(Vector3 _desiredVelocity)
+void RigidBodyModel::LinearStabiliser(Vector3 _desiredVelocity)
 {
     Vector3 unwantedVelocity = m_velocity - _desiredVelocity;
 
@@ -105,9 +100,4 @@ void ParticleModel::LinearStabiliser(Vector3 _desiredVelocity)
     Vector3 stabiliserForce = error * 0.3;
 
     AddForce(stabiliserForce);
-}
-
-void Reset()
-{
-
 }

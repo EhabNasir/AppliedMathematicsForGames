@@ -8,6 +8,7 @@
 #include "Vector3.h"
 #include "Systems/PhysicsComponent.h"
 #include "Systems/ParticleModel.h"
+#include "RigidbodyModel.h"
 
 using namespace DirectX;
 using namespace std;
@@ -24,7 +25,7 @@ public:
 
 	Transform* GetTransform() { return _transform; }
 	Appearance* GetAppearance() { return _appearance; }
-	PhysicsComponent* GetPhysics() { return m_particleModel; }
+	PhysicsComponent* GetPhysics() { return m_rigidBody; }
 	bool hasPhysics = false;
 
 	// Rendering information
@@ -41,6 +42,7 @@ private:
 	Transform* _transform;
 	Appearance* _appearance;
 	ParticleModel* m_particleModel;
+	RigidBodyModel* m_rigidBody;
 
 	string _type;
 	//XMFLOAT4X4 _world;
