@@ -1,8 +1,10 @@
 #pragma once
 #include "Transform.h"
-#include "SphereCollider.h"
+#include "Vector3.h"
 
-class Collider abstract
+class SphereCollider;
+
+class Collider
 {
 public:
 	Collider(Transform* _transform) { m_transform = _transform; }
@@ -15,4 +17,3 @@ public:
 protected:
 	Transform* m_transform;
 };
-

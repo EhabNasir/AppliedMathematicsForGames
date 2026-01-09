@@ -2,11 +2,13 @@
 
 #include "../Transform.h"
 #include "../Vector3.h"
+#include "../Collider.h"
 
 class PhysicsComponent
 {
 public:
 	PhysicsComponent(Transform* _transform, float _mass);
+	~PhysicsComponent();
 
 	virtual void Update(float _deltaTime) = 0;
 
@@ -15,10 +17,15 @@ public:
 
 	virtual void AddForce(Vector3 _force) = 0 { m_netForce += _force; }
 
-	virtual	void SimulateGravity() = 0 { if (isSimulatingGravity) AddForce(Vector3(0, -m_gravitationalConstant, 0)); }
+	virtual	void SimulateGravity() { if (isSimulatingGravity) AddForce(Vector3(0, -m_gravitationalConstant, 0)); }
 	virtual	Vector3 SimulateDrag() = 0;
 	virtual	void SimulateFriction(bool _hasContact, float _deltaTime) = 0;
 	virtual void LinearStabiliser(Vector3 _desiredVelocity) = 0;
+
+	bool IsCollideable() const { return m_collider != nullptr; }
+
+	void SetCollider(Collider* _collider) { m_collider = _collider; }
+	Collider* GetCollider() const { return m_collider; }
 
 	bool accelarate = false;
 	bool isSimulatingGravity = false;
@@ -33,4 +40,6 @@ protected:
 	Vector3 m_acceleration;
 
 	Vector3 m_netForce;
+
+	Collider* m_collider = nullptr;
 };

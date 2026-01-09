@@ -597,21 +597,27 @@ void DX11PhysicsFramework::Update()
 	//simpleCount += deltaTime;
 	//Debug::PrintArguments("My name is %i%s \n", 4, ".");
 
-	Vector3 velo = Vector3(0,1,0);
+	Vector3 velo = Vector3(10000,0,0);
+
+	if (_gameObjects[1]->GetPhysics()->IsCollideable() && _gameObjects[2]->GetPhysics()->IsCollideable())
+	{
+		if(_gameObjects[1]->GetPhysics()->GetCollider()->CollidesWith(*_gameObjects[2]->GetPhysics()->GetCollider()))
+			Debug::PrintArguments("Collision");
+	}
 
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))
 	{
 		_gameObjects[1]->hasPhysics = true;
 		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, 100));
-		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(0, 0, 10000));
+		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(10000, 0, 0));
 		//_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
 	}
 	if (GetAsyncKeyState('2'))
 	{
 		_gameObjects[1]->hasPhysics = true;
 		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, -100));
-		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(0, 0, -10000));
+		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(-10000, 0, 0));
 	}
 	if (GetAsyncKeyState('3'))
 	{

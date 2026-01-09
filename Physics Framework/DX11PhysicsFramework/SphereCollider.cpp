@@ -1,11 +1,14 @@
 #include "SphereCollider.h"
+#include <cmath>
 
 bool SphereCollider::CollidesWith(SphereCollider& _other)
 {
-	float distance = _other.m_transform->GetPosition().Magnitude() - m_transform->GetPosition().Magnitude();
+	Vector3 distance = _other.m_transform->GetPosition() - m_transform->GetPosition();
 
-	if (distance < _other.GetRadius() + GetRadius())
+	if (distance.Magnitude() <= _other.GetRadius() + GetRadius())
 	{
-		//Is colliding = true;
+		return true;
 	}
+
+	return false;
 }
