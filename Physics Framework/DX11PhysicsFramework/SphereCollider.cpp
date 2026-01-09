@@ -1,4 +1,6 @@
 #include "SphereCollider.h"
+#include "BoundingBoxCollider.h"
+#include "PlaneCollider.h"
 #include <cmath>
 
 bool SphereCollider::CollidesWith(SphereCollider& _other)
@@ -10,5 +12,15 @@ bool SphereCollider::CollidesWith(SphereCollider& _other)
 		return true;
 	}
 
+	return false;
+}
+
+bool SphereCollider::CollidesWith(BoundingBoxCollider& _other)
+{
+	return false;
+}
+
+bool SphereCollider::CollidesWith(PlaneCollider& _other)
+{
 	return false;
 }

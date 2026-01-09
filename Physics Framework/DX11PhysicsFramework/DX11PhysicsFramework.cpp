@@ -599,35 +599,39 @@ void DX11PhysicsFramework::Update()
 
 	Vector3 velo = Vector3(10000,0,0);
 
-	if (_gameObjects[1]->GetPhysics()->IsCollideable() && _gameObjects[2]->GetPhysics()->IsCollideable())
-	{
-		if(_gameObjects[1]->GetPhysics()->GetCollider()->CollidesWith(*_gameObjects[2]->GetPhysics()->GetCollider()))
-			Debug::PrintArguments("Collision");
-	}
 
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))
 	{
 		_gameObjects[1]->hasPhysics = true;
 		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, 100));
-		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(10000, 0, 0));
+		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(8000, 0, 0));
 		//_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
 	}
 	if (GetAsyncKeyState('2'))
 	{
 		_gameObjects[1]->hasPhysics = true;
 		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, -100));
-		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(-10000, 0, 0));
+		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(-8000, 0, 0));
 	}
 	if (GetAsyncKeyState('3'))
 	{
-		_gameObjects[2]->Move(Vector3(0, 0, -0.02f));
+		_gameObjects[2]->hasPhysics = true;
+		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, -100));
+		_gameObjects[2]->GetPhysics()->LinearStabiliser(Vector3(-8000, 0, 0));
 	}
 	if (GetAsyncKeyState('4'))
 	{
-		_gameObjects[2]->Move(Vector3(0, 0, 0.02f));
+		_gameObjects[2]->hasPhysics = true;
+		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, -100));
+		_gameObjects[2]->GetPhysics()->LinearStabiliser(Vector3(8000, 0, 0));
 	}
 
+	if (_gameObjects[1]->GetPhysics()->IsCollideable() && _gameObjects[2]->GetPhysics()->IsCollideable())
+	{
+		if (_gameObjects[1]->GetPhysics()->GetCollider()->CollidesWith(*_gameObjects[2]->GetPhysics()->GetCollider()))
+			Debug::PrintArguments("Collision");
+	}
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
 

@@ -8,6 +8,8 @@ public:
 
 	virtual bool CollidesWith(Collider& _other) override { return _other.CollidesWith(*this); }
 	virtual bool CollidesWith(SphereCollider& _other) override;
+	virtual bool CollidesWith(BoundingBoxCollider& _other) override;
+	virtual bool CollidesWith(PlaneCollider& _other) override;
 
 	float GetRadius() const { return m_radius; }
 
