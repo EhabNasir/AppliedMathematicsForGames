@@ -10,12 +10,12 @@ PlaneCollider::PlaneCollider(Transform* _transform, Vector3 _normal) : Collider(
 	m_distance = -(_normal * _transform->GetPosition());
 }
 
-bool PlaneCollider::CollidesWith(PlaneCollider& _other)
+bool PlaneCollider::CollidesWith(PlaneCollider& _other, CollisionInfo& _info)
 {
 	return false;
 }
 
-bool PlaneCollider::CollidesWith(SphereCollider& _other)
+bool PlaneCollider::CollidesWith(SphereCollider& _other, CollisionInfo& _info)
 {
 	float radius = _other.GetRadius();
 	Vector3 sphereCentre = _other.GetPosition();
@@ -25,7 +25,7 @@ bool PlaneCollider::CollidesWith(SphereCollider& _other)
 	return distance <= radius;
 }
 
-bool PlaneCollider::CollidesWith(BoundingBoxCollider& _other)
+bool PlaneCollider::CollidesWith(BoundingBoxCollider& _other, CollisionInfo& _info)
 {
 	Vector3 boxCentre = _other.GetCentre();
 	Vector3 halfExtent = _other.GetHalfExtents();

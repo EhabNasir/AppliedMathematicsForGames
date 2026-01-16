@@ -91,6 +91,28 @@ void RigidBodyModel::SimulateFriction(bool _hasContact, float deltaTime)
     }
 }
 
+//void ApplyImpulse(GameObject* _collisionObject)
+//{
+//    //Vector3 collisionNormal = _collisionObject->GetTransform()->GetPosition() - m_transform->GetPosition();
+//    //collisionNormal.Normalize();
+//    //Vector3 relativeVelocity = _collisionObject->GetPhysics()->GetVelocity() - GetVelocity();
+//    //float coeffRestitution = 1;
+//
+//    //float seperatingVelocity = collisionNormal * relativeVelocity;
+//
+//    //if (seperatingVelocity < 0)
+//    //    return;
+//
+//    //float newSeperatingVelocity = -seperatingVelocity * coeffRestitution;
+//
+//    //float deltaVelocity = newSeperatingVelocity - seperatingVelocity;
+//
+//    //Vector3 collisionForce;
+//
+//    ////?do we not add force instead go straight to velocity
+//    //SetVelocity(GetVelocity() + collisionForce);
+//}
+
 void RigidBodyModel::LinearStabiliser(Vector3 _desiredVelocity)
 {
     Vector3 unwantedVelocity = m_velocity - _desiredVelocity;

@@ -373,6 +373,7 @@
     <ClCompile Include="Appearance.cpp" />
     <ClCompile Include="BoundingBoxCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DX11PhysicsFramework.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -399,6 +400,7 @@
     <ClInclude Include="Appearance.h" />
     <ClInclude Include="BoundingBoxCollider.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DX11PhysicsFramework.h" />
     <ClInclude Include="Camera.h" />

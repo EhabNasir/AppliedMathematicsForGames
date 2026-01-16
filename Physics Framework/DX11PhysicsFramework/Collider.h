@@ -1,6 +1,7 @@
 #pragma once
 #include "Transform.h"
 #include "Vector3.h"
+#include "CollisionHandler.h"
 
 class SphereCollider;
 class BoundingBoxCollider;
@@ -11,10 +12,10 @@ class Collider
 public:
 	Collider(Transform* _transform) { m_transform = _transform; }
 
-	virtual bool CollidesWith(Collider& _other) = 0;
-	virtual bool CollidesWith(SphereCollider& _other) = 0;
-	virtual bool CollidesWith(BoundingBoxCollider& _other) = 0;
-	virtual bool CollidesWith(PlaneCollider& _other) = 0;
+	virtual bool CollidesWith(Collider& _other, CollisionInfo& _info) = 0;
+	virtual bool CollidesWith(SphereCollider& _other, CollisionInfo& _info) = 0;
+	virtual bool CollidesWith(BoundingBoxCollider& _other, CollisionInfo& _info) = 0;
+	virtual bool CollidesWith(PlaneCollider& _other, CollisionInfo& _info) = 0;
 
 	Vector3 GetPosition() const { return m_transform->GetPosition(); }
 

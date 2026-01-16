@@ -20,5 +20,15 @@ public:
 	void SimulateFriction(bool _hasContact, float _deltaTime) override;
 
 	void LinearStabiliser(Vector3 _desiredVelocity) override;
+
+	//void ApplyImpulse(GameObject* _collisionObject) override;
+
+private:
+	float m_inverseMass = 1/m_mass;
+	float m_linearDampening;
+
+	//Quaternion m_orientation;
+	Vector3 m_angularVelocity;
+	//Matrix4 transformMatrix;
 };
 

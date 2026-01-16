@@ -532,8 +532,8 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-2.0f + (i * 2.5f), 2.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_StoneTextureRV);
-		//Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
-		Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
+		Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
+		//Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
 		gameObject->GetPhysics()->SetCollider(collider);
 
 		_gameObjects.push_back(gameObject);
@@ -544,6 +544,8 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	gameObject->GetTransform()->SetPosition(-5.0f, 0.5f, 10.0f);
 	gameObject->GetAppearance()->SetTextureRV(_StoneTextureRV);
 	_gameObjects.push_back(gameObject);
+
+	m_collisionHandler = new CollisionHandler();
 
 	return S_OK;
 }
@@ -604,11 +606,14 @@ void DX11PhysicsFramework::Update()
 
 	Vector3 velo = Vector3(10000,0,0);
 
+	_gameObjects[1]->hasPhysics = true;
+	_gameObjects[2]->hasPhysics = true;
+	_gameObjects[3]->hasPhysics = true;
+	_gameObjects[4]->hasPhysics = true;
 
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))
 	{
-		_gameObjects[1]->hasPhysics = true;
 		_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
 		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, 100));
 		//_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(8000, 0, 0));
@@ -633,21 +638,25 @@ void DX11PhysicsFramework::Update()
 		_gameObjects[2]->GetPhysics()->LinearStabiliser(Vector3(8000, 0, 0));
 	}
 
-	if (_gameObjects[1]->GetPhysics()->IsCollideable() && _gameObjects[2]->GetPhysics()->IsCollideable())
-	{
-		if (_gameObjects[1]->GetPhysics()->GetCollider()->CollidesWith(*_gameObjects[2]->GetPhysics()->GetCollider()))
-			Debug::PrintArguments("Collision");
-	}
+	m_collisionHandler->ProcessGameObjects(_gameObjects);
 
-	if (_gameObjects[1]->GetPhysics()->IsCollideable() && _gameObjects[0]->GetPhysics()->IsCollideable())
-	{
-		if (_gameObjects[1]->GetPhysics()->GetCollider()->CollidesWith(*_gameObjects[0]->GetPhysics()->GetCollider()))
-		{
-			_gameObjects[1]->GetPhysics()->isSimulatingGravity = false;
-			_gameObjects[1]->GetPhysics()->SetVelocity(Vector3(0, 0, 0));
-			//Debug::PrintArguments("HitFloor");
-		}
-	}
+	//for (GameObject* g : _gameObjects)
+	//{
+	//	if (g->GetPhysics()->IsCollideable() && _gameObjects[0]->GetPhysics()->IsCollideable())
+	//	{
+	//		if (g->GetPhysics()->GetCollider()->CollidesWith(*_gameObjects[0]->GetPhysics()->GetCollider()))
+	//		{
+	//			Vector3 dir = g->GetPhysics()->GetVelocity();
+	//			dir.Normalize();
+	//			if (dir.y < 0)
+	//			{
+	//				g->GetPhysics()->isSimulatingGravity = false;
+	//				g->GetPhysics()->SetVelocity(Vector3(g->GetPhysics()->GetVelocity().x, 0, g->GetPhysics()->GetVelocity().z));
+	//				Debug::PrintArguments("HitFloor");
+	//			}
+	//		}
+	//	}
+	//}
 
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);

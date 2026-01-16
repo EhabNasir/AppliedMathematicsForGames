@@ -18,6 +18,7 @@
 #include "Timer.h"
 #include "GameObject.h"
 #include "Vector3.h"
+#include "CollisionHandler.h"
 #include "BoundingBoxCollider.h"
 #include "SphereCollider.h"
 #include "PlaneCollider.h"
@@ -65,6 +66,8 @@ private:
 
 	MeshData _objMeshData;
 	vector<GameObject*> _gameObjects;
+
+	CollisionHandler* m_collisionHandler;
 
 	Camera * _camera = nullptr;
 	float _cameraOrbitRadius = 7.0f;

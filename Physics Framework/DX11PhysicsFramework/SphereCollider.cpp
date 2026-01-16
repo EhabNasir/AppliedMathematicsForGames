@@ -3,11 +3,15 @@
 #include "PlaneCollider.h"
 #include <cmath>
 
-bool SphereCollider::CollidesWith(SphereCollider& _other)
+bool SphereCollider::CollidesWith(SphereCollider& _other, CollisionInfo& _info)
 {
 	Vector3 distance = _other.m_transform->GetPosition() - m_transform->GetPosition();
 
-	if (distance.Magnitude() <= _other.GetRadius() + GetRadius())
+	float radiiSum = _other.GetRadius() + GetRadius();
+
+	_info.penDepth =  radiiSum - distance.Magnitude();
+
+	if (distance.Magnitude() <= radiiSum)
 	{
 		return true;
 	}
@@ -15,12 +19,12 @@ bool SphereCollider::CollidesWith(SphereCollider& _other)
 	return false;
 }
 
-bool SphereCollider::CollidesWith(BoundingBoxCollider& _other)
+bool SphereCollider::CollidesWith(BoundingBoxCollider& _other, CollisionInfo& _info)
 {
 	return false;
 }
 
-bool SphereCollider::CollidesWith(PlaneCollider& _other)
+bool SphereCollider::CollidesWith(PlaneCollider& _other, CollisionInfo& _info)
 {
 	return false;
 }
