@@ -1,5 +1,6 @@
 #pragma once
 #include "../Systems/PhysicsComponent.h"
+#include "Quaternion.h"
 
 class RigidBodyModel : public PhysicsComponent
 {
@@ -27,8 +28,8 @@ private:
 	float m_inverseMass = 1/m_mass;
 	float m_linearDampening;
 
-	//Quaternion m_orientation;
+	Quaternion m_orientation;
 	Vector3 m_angularVelocity;
-	//Matrix4 transformMatrix;
+	XMVECTOR transformMatrix;
 };
 

@@ -408,6 +408,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="PlaneCollider.h" />
+    <ClInclude Include="Quaternion.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="RigidbodyModel.h" />
     <ClInclude Include="SphereCollider.h" />

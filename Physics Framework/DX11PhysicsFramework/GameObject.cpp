@@ -32,7 +32,9 @@ void GameObject::Update(float _deltaTime)
 
 	// Calculate world matrix
 	XMMATRIX scale = XMMatrixScaling(_transform->GetScale().x, _transform->GetScale().y, _transform->GetScale().z);
-	XMMATRIX rotation = XMMatrixRotationX(_transform->GetRotation().x) * XMMatrixRotationY(_transform->GetRotation().y) * XMMatrixRotationZ(_transform->GetRotation().z);
+	//XMMATRIX rotation = XMMatrixRotationX(_transform->GetRotation().x) * XMMatrixRotationY(_transform->GetRotation().y) * XMMatrixRotationZ(_transform->GetRotation().z);
+	XMVECTOR q = XMVectorSet(_transform->GetOrientation().v.x, _transform->GetOrientation().v.y, _transform->GetOrientation().v.z, _transform->GetOrientation().n);
+	XMMATRIX rotation = XMMatrixRotationQuaternion(q);
 	XMMATRIX translation = XMMatrixTranslation(_transform->GetPosition().x, _transform->GetPosition().y, _transform->GetPosition().z);
 
 	//XMStoreFloat4x4(&_world, scale * rotation * translation);

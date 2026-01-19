@@ -1,7 +1,7 @@
 #pragma once
 #include <directxmath.h>
 #include <d3d11_1.h>
-#include "Vector3.h"
+#include "Quaternion.h"
 
 using namespace DirectX;
 using namespace std;
@@ -23,14 +23,15 @@ public:
 
 	Vector3 GetScale() const { return _scale; }
 
-	void SetRotation(XMFLOAT3 rotation) { _rotation = rotation; }
-	void SetRotation(float x, float y, float z) { _rotation.x = x; _rotation.y = y; _rotation.z = z; }
+	void SetRotation(Vector3 _rotation) { m_orientation = MakeQFromEulerAngles(_rotation.x , _rotation.y, _rotation.z); }
+	void SetRotation(float x, float y, float z) { m_orientation = MakeQFromEulerAngles(x, y, z); }
 
-	XMFLOAT3 GetRotation() const { return _rotation; }
+	Vector3 GetRotation() const { return MakeEulerAnglesFromQ(m_orientation); }
+	Quaternion GetOrientation() const { return m_orientation; }
 
 private:
 	Vector3 _position;
-	XMFLOAT3 _rotation;
+	Quaternion m_orientation;
 	Vector3 _scale;
 };
 

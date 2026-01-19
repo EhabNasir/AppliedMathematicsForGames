@@ -21,12 +21,15 @@ public:
 	virtual float GetInverseMass() { return m_inverseMass; }
 
 	virtual void AddForce(Vector3 _force) { m_netForce += _force; }
+	virtual void LinearStabiliser(Vector3 _desiredVelocity) = 0;
+
+	//virtual Vector3 GetAngularVelocity() { return m_velocity; }
+	//virtual void SetAngularVelocity(Vector3 _newVelocity) { m_angularVelocity = _newVelocity; }
+	//virtual void AddRotationalForce(Vector3 _force) { m_netAngularForce += _force; }
 
 	virtual	void SimulateGravity() { if (isSimulatingGravity) AddForce(Vector3(0, -m_gravitationalConstant, 0)); }
 	virtual	Vector3 SimulateDrag() = 0;
 	virtual	void SimulateFriction(bool _hasContact, float _deltaTime) = 0;
-	virtual void LinearStabiliser(Vector3 _desiredVelocity) = 0;
-	//virtual void ApplyImpulse(GameObject* _collidedObject);
 	virtual void ApplyImpulse(Vector3 _impulse);
 
 	bool IsCollideable() const { return m_collider != nullptr; }
@@ -46,8 +49,10 @@ protected:
 
 	Vector3 m_velocity;
 	Vector3 m_acceleration;
-
 	Vector3 m_netForce;
+
+	Vector3 m_netAngularForce;
+	Vector3 m_angularVelocity;
 
 	Collider* m_collider = nullptr;
 };
