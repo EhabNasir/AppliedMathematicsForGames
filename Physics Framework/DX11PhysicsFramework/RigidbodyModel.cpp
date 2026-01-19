@@ -91,6 +91,11 @@ void RigidBodyModel::SimulateFriction(bool _hasContact, float deltaTime)
     }
 }
 
+void RigidBodyModel::CalculateRotation(Vector3 _force, Vector3 _leverArm, XMFLOAT3X3 _inertia, float _deltaTime)
+{
+
+}
+
 //void ApplyImpulse(GameObject* _collisionObject)
 //{
 //    //Vector3 collisionNormal = _collisionObject->GetTransform()->GetPosition() - m_transform->GetPosition();

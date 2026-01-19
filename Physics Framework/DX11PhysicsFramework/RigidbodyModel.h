@@ -14,6 +14,8 @@ public:
 
 	void AddForce(Vector3 _force) override { m_netForce += _force; }
 
+	void CalculateRotation(Vector3 _force, Vector3 _leverArm, XMFLOAT3X3 _inertia, float _deltaTime);
+
 	//void SimulateGravity() override { if (isSimulatingGravity) AddForce(Vector3(0, -m_gravitationalConstant, 0)); }
 
 	Vector3 SimulateDrag() override;
