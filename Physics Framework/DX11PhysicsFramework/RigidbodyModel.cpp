@@ -5,7 +5,13 @@
 
 RigidBodyModel::RigidBodyModel(Transform* _transform, float _mass) : PhysicsComponent(_transform, _mass)
 {
+    m_inverseMass = (_mass > 0.0f) ? 1.0f / _mass : 0.0f;
 
+    m_inertiaTensor = XMFLOAT3X3(
+        1, 0, 0,
+        0, 1, 0,
+        0, 0, 1
+    );
 }
 
 void RigidBodyModel::Update(float _deltaTime)
@@ -127,13 +133,13 @@ void RigidBodyModel::CalculateRotation(Vector3 _force,Vector3 _point, Vector3 _h
     //t = r x f
     m_torque += r ^ _force;
 
-    float x = _halfExtents.x * _halfExtents.x;
-    float y = _halfExtents.y * _halfExtents.y;
-    float z = _halfExtents.z * _halfExtents.z;
+    //float x = _halfExtents.x * _halfExtents.x;
+    //float y = _halfExtents.y * _halfExtents.y;
+    //float z = _halfExtents.z * _halfExtents.z;
 
-    m_inertiaTensor._11 = 1 / 12 * m_mass * (y + z);
-    m_inertiaTensor._22 = 1 / 12 * m_mass * (x + z);
-    m_inertiaTensor._33 = 1 / 12 * m_mass * (x + y);
+    //m_inertiaTensor._11 = 1 / 12 * m_mass * (y + z);
+    //m_inertiaTensor._22 = 1 / 12 * m_mass * (x + z);
+    //m_inertiaTensor._33 = 1 / 12 * m_mass * (x + y);
 }
 
 void RigidBodyModel::LinearStabiliser(Vector3 _desiredVelocity)

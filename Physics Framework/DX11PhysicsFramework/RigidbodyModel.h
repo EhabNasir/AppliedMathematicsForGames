@@ -23,7 +23,7 @@ public:
 	void LinearStabiliser(Vector3 _desiredVelocity) override;
 
 private:
-	float m_inverseMass = 1/m_mass;
+	float m_inverseMass;
 	float m_linearDampening;
 
 	Quaternion m_orientation;

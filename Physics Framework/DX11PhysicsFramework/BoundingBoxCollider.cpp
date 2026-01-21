@@ -26,14 +26,17 @@ bool BoundingBoxCollider::CollidesWith(BoundingBoxCollider& _other, CollisionInf
     if (overlapX < overlapY && overlapX < overlapZ)
     {
         _info.penDepth = overlapX;
+        //_info.normal = Vector3(GetCentre().x < _other.GetCentre().x ? -1 : 1, 0, 0);
     }
     else if (overlapY < overlapZ)
     {
         _info.penDepth = overlapY;
+        //_info.normal = Vector3(GetCentre().y < _other.GetCentre().y ? -1 : 1, 0, 0);
     }
     else
     {
         _info.penDepth = overlapZ;
+        //_info.normal = Vector3(GetCentre().z < _other.GetCentre().z ? -1 : 1, 0, 0);
     }
 
 	bool isOverlapping = xOverlap && yOverlap && zOverlap;

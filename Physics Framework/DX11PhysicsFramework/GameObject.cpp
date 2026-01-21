@@ -11,7 +11,7 @@ GameObject::GameObject(string type, Geometry geometry, Material material) : _typ
 
 	//m_physicsCompnonent = new PhysicsComponent(_transform);
 	//m_particleModel = new ParticleModel(_transform, 100.0f);
-	m_rigidBody = new RigidBodyModel(_transform, 100.0f);
+	m_rigidBody = new RigidBodyModel(_transform, 1000.0f);
 }
 
 GameObject::~GameObject()
