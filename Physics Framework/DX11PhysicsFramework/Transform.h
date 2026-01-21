@@ -27,6 +27,11 @@ public:
 	void SetRotation(float x, float y, float z) { m_orientation = MakeQFromEulerAngles(x, y, z); }
 
 	Vector3 GetRotation() const { return MakeEulerAnglesFromQ(m_orientation); }
+
+	void SetOrientation(const Quaternion& q)
+	{
+		m_orientation = q;
+	}
 	Quaternion GetOrientation() const { return m_orientation; }
 
 private:

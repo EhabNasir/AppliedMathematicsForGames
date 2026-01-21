@@ -28,6 +28,34 @@ void RigidBodyModel::Update(float _deltaTime)
 
     m_transform->SetPosition(position);
 
+
+    //Rotation
+    Vector3 angularAcceleration;
+
+    angularAcceleration.x = m_torque.x / m_inertiaTensor._11;
+    angularAcceleration.y = m_torque.y / m_inertiaTensor._22;
+    angularAcceleration.z = m_torque.z / m_inertiaTensor._33;;
+
+    m_angularVelocity += angularAcceleration * _deltaTime;
+
+    Quaternion dq(0.0f, m_angularVelocity.x, m_angularVelocity.y, m_angularVelocity.z);
+
+    dq = m_orientation * dq;
+    dq *= 0.5f * _deltaTime;
+    m_orientation += dq;
+
+    //normalise orientation
+    float magQ = m_orientation.Magnitude();
+    if (magQ > 0)
+        m_orientation /= magQ;
+
+    m_transform->SetOrientation(m_orientation);
+
+    //fake air-resistance
+    m_angularVelocity *= m_angularDampening;
+
+    m_torque = Vector3(0, 0, 0);
+
     //clear forces
     m_netForce = Vector3(0, 0, 0);
     m_acceleration = Vector3(0, 0, 0);
@@ -91,32 +119,22 @@ void RigidBodyModel::SimulateFriction(bool _hasContact, float deltaTime)
     }
 }
 
-void RigidBodyModel::CalculateRotation(Vector3 _force, Vector3 _leverArm, XMFLOAT3X3 _inertia, float _deltaTime)
+void RigidBodyModel::CalculateRotation(Vector3 _force,Vector3 _point, Vector3 _halfExtents)
 {
+    //point of force relative to centre
+    Vector3 r = _point - m_transform->GetPosition();
 
+    //t = r x f
+    m_torque += r ^ _force;
+
+    float x = _halfExtents.x * _halfExtents.x;
+    float y = _halfExtents.y * _halfExtents.y;
+    float z = _halfExtents.z * _halfExtents.z;
+
+    m_inertiaTensor._11 = 1 / 12 * m_mass * (y + z);
+    m_inertiaTensor._22 = 1 / 12 * m_mass * (x + z);
+    m_inertiaTensor._33 = 1 / 12 * m_mass * (x + y);
 }
-
-//void ApplyImpulse(GameObject* _collisionObject)
-//{
-//    //Vector3 collisionNormal = _collisionObject->GetTransform()->GetPosition() - m_transform->GetPosition();
-//    //collisionNormal.Normalize();
-//    //Vector3 relativeVelocity = _collisionObject->GetPhysics()->GetVelocity() - GetVelocity();
-//    //float coeffRestitution = 1;
-//
-//    //float seperatingVelocity = collisionNormal * relativeVelocity;
-//
-//    //if (seperatingVelocity < 0)
-//    //    return;
-//
-//    //float newSeperatingVelocity = -seperatingVelocity * coeffRestitution;
-//
-//    //float deltaVelocity = newSeperatingVelocity - seperatingVelocity;
-//
-//    //Vector3 collisionForce;
-//
-//    ////?do we not add force instead go straight to velocity
-//    //SetVelocity(GetVelocity() + collisionForce);
-//}
 
 void RigidBodyModel::LinearStabiliser(Vector3 _desiredVelocity)
 {

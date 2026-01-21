@@ -615,9 +615,6 @@ void DX11PhysicsFramework::Update()
 	if (GetAsyncKeyState('1'))
 	{
 		_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
-		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, 100));
-		//_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(8000, 0, 0));
-		//_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
 	}
 	if (GetAsyncKeyState('2'))
 	{

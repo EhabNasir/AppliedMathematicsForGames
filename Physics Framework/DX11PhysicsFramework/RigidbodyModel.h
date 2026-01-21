@@ -14,9 +14,7 @@ public:
 
 	void AddForce(Vector3 _force) override { m_netForce += _force; }
 
-	void CalculateRotation(Vector3 _force, Vector3 _leverArm, XMFLOAT3X3 _inertia, float _deltaTime);
-
-	//void SimulateGravity() override { if (isSimulatingGravity) AddForce(Vector3(0, -m_gravitationalConstant, 0)); }
+	void CalculateRotation(Vector3 _force, Vector3 _point, Vector3 _halfExtents) override;
 
 	Vector3 SimulateDrag() override;
 
@@ -24,14 +22,15 @@ public:
 
 	void LinearStabiliser(Vector3 _desiredVelocity) override;
 
-	//void ApplyImpulse(GameObject* _collisionObject) override;
-
 private:
 	float m_inverseMass = 1/m_mass;
 	float m_linearDampening;
 
 	Quaternion m_orientation;
+	Vector3 m_torque;
 	Vector3 m_angularVelocity;
 	XMVECTOR transformMatrix;
+	XMFLOAT3X3 m_inertiaTensor;
+	float m_angularDampening = 0.99f;
 };
 

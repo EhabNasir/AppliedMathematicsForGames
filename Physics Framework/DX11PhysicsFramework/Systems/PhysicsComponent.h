@@ -26,6 +26,7 @@ public:
 	virtual Vector3 GetAngularVelocity() { return m_velocity; }
 	virtual void SetAngularVelocity(Vector3 _newVelocity) { m_angularVelocity = _newVelocity; }
 	virtual void AddRotationalForce(Vector3 _force) { m_netAngularForce += _force; }
+	virtual void CalculateRotation( Vector3 _force, Vector3 _point, Vector3 _halfExtents) = 0;
 
 	virtual	void SimulateGravity() { if (isSimulatingGravity) AddForce(Vector3(0, -m_gravitationalConstant, 0)); }
 	virtual	Vector3 SimulateDrag() = 0;

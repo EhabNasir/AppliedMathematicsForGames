@@ -10,6 +10,7 @@ struct CollisionInfo
 	GameObject* obj2;
 
 	Vector3 normal;
+	Vector3 halfExtents;
 	float penDepth;
 };
 

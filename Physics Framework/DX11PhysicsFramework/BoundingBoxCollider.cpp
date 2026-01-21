@@ -11,6 +11,8 @@ BoundingBoxCollider::BoundingBoxCollider(Transform* _transform) : Collider(_tran
 
 bool BoundingBoxCollider::CollidesWith(BoundingBoxCollider& _other, CollisionInfo& _info)
 {
+    _info.halfExtents = GetHalfExtents();
+
 	bool xOverlap = GetMin().x <= _other.GetMax().x && GetMax().x >= _other.GetMin().x;
 	bool yOverlap = GetMin().y <= _other.GetMax().y && GetMax().y >= _other.GetMin().y;
 	bool zOverlap = GetMin().z <= _other.GetMax().z && GetMax().z >= _other.GetMin().z;
