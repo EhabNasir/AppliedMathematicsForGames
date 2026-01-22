@@ -381,6 +381,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="ParticleForceGenerator.cpp" />
+    <ClCompile Include="ParticleGravity.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="RigidbodyModel.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -407,6 +409,8 @@
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="ParticleForceGenerator.h" />
+    <ClInclude Include="ParticleGravity.h" />
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="Quaternion.h" />
     <CLInclude Include="resource.h" />
