@@ -17,8 +17,8 @@ RigidBodyModel::RigidBodyModel(Transform* _transform, float _mass) : PhysicsComp
 void RigidBodyModel::Update(float _deltaTime)
 {
     //Add forces
-    RigidBodyModel::SimulateGravity();
-    AddForce(SimulateDrag());
+    //RigidBodyModel::SimulateGravity();
+    //AddForce(SimulateDrag());
     //SimulateFriction(true, _deltaTime);
 
     Vector3 position = m_transform->GetPosition();

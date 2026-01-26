@@ -22,6 +22,9 @@
 #include "BoundingBoxCollider.h"
 #include "SphereCollider.h"
 #include "PlaneCollider.h"
+#include "ParticleForceRegistry.h"
+#include "ParticleGravity.h"
+#include "ParticleDrag.h"
 
 
 using namespace DirectX;
@@ -86,6 +89,9 @@ private:
 
 	Timer timer;
 	float accumulator = 0.0f;
+
+	//Force Generator Variables
+	ParticleForceRegistry m_forceRegistry;
 
 private:
 	HRESULT CreateWindowHandle(HINSTANCE hInstance, int nCmdShow);

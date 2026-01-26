@@ -516,6 +516,11 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	noSpecMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	noSpecMaterial.specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 
+	// Creating registry and forces
+	m_forceRegistry = ParticleForceRegistry();
+	ParticleGravity* Generator_Gravity = new ParticleGravity();
+	ParticleDrag* Generator_Drag = new ParticleDrag();
+
 	GameObject* gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial);
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
@@ -535,6 +540,8 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 		Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
 		//Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
 		gameObject->GetPhysics()->SetCollider(collider);
+		//m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Gravity);
+		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Drag);
 
 		_gameObjects.push_back(gameObject);
 	}
@@ -614,7 +621,7 @@ void DX11PhysicsFramework::Update()
 	// Move gameobjects
 	if (GetAsyncKeyState('1'))
 	{
-		_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
+		//_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
 		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0.1, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 1, 3), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('2'))
@@ -682,6 +689,7 @@ void DX11PhysicsFramework::Update()
 		// Update objects
 		for (auto gameObject : _gameObjects)
 		{
+			m_forceRegistry.UpdateForces(deltaTime);
 			//gameObject->Update(deltaTime);
 			gameObject->Update(FPS60);
 		}
