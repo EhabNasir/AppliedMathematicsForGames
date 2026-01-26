@@ -43,6 +43,7 @@
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="ParticleForceGenerator.h" />
     <ClInclude Include="ParticleGravity.h" />
+    <ClInclude Include="ParticleForceRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX11PhysicsFramework.cpp" />
@@ -70,6 +71,7 @@
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="ParticleForceGenerator.cpp" />
     <ClCompile Include="ParticleGravity.cpp" />
+    <ClCompile Include="ParticleForceRegistry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

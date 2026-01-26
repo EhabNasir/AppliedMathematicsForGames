@@ -19,6 +19,7 @@ public:
 	virtual void SetVelocity(Vector3 _newVelocity) { m_velocity = _newVelocity; }
 
 	virtual float GetInverseMass() { return m_inverseMass; }
+	virtual float GetMass() { return m_mass; }
 
 	virtual void AddForce(Vector3 _force) { m_netForce += _force; }
 	virtual void LinearStabiliser(Vector3 _desiredVelocity) = 0;
