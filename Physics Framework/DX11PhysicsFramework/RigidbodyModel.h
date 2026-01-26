@@ -26,6 +26,7 @@ private:
 	float m_inverseMass;
 	float m_linearDampening;
 
+	Vector3 m_worldForward;
 	Quaternion m_orientation;
 	Vector3 m_torque;
 	Vector3 m_angularVelocity;

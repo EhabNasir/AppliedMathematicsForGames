@@ -144,7 +144,9 @@ void RigidBodyModel::CalculateRotation(Vector3 _force,Vector3 _point, Vector3 _h
 
 void RigidBodyModel::LinearStabiliser(Vector3 _desiredVelocity)
 {
-    Vector3 unwantedVelocity = m_velocity - _desiredVelocity;
+    Vector3 forwardVelocity = QVRotate(m_orientation, _desiredVelocity);
+
+    Vector3 unwantedVelocity = m_velocity - forwardVelocity;
 
     Vector3 error = -unwantedVelocity;
 

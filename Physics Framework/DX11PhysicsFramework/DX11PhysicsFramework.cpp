@@ -619,28 +619,25 @@ void DX11PhysicsFramework::Update()
 	_gameObjects[4]->hasPhysics = true;
 
 	// Move gameobjects
-	if (GetAsyncKeyState('1'))
+	if (GetAsyncKeyState('W'))
 	{
-		//_gameObjects[1]->GetPhysics()->isSimulatingGravity = true;
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0.1, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 1, 3), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(0, 0, 8000));
 	}
-	if (GetAsyncKeyState('2'))
+	if (GetAsyncKeyState('Q'))
 	{
-		_gameObjects[1]->hasPhysics = true;
-		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, -100));
-		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(-800, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 1, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
 	}
-	if (GetAsyncKeyState('3'))
+	if (GetAsyncKeyState('E'))
 	{
-		_gameObjects[2]->hasPhysics = true;
-		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, -100));
-		_gameObjects[2]->GetPhysics()->LinearStabiliser(Vector3(-800, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 1, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 	}
-	if (GetAsyncKeyState('4'))
+	if (GetAsyncKeyState('S'))
 	{
-		_gameObjects[2]->hasPhysics = true;
-		//_gameObjects[1]->GetPhysics()->AddForce(Vector3(0, 0, -100));
-		_gameObjects[2]->GetPhysics()->LinearStabiliser(Vector3(800, 0, 0));
+		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(0, 0, -8000));
+	}
+	if (GetAsyncKeyState('R'))
+	{
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 1, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
 	}
 
 	m_collisionHandler->ProcessGameObjects(_gameObjects);
