@@ -485,7 +485,7 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	basicLight.LightVecW = XMFLOAT3(0.0f, 0.5f, -1.0f);
 
 	Geometry herculesGeometry;
-	_objMeshData = OBJLoader::Load("Resources\\OBJ\\donut.obj", _device);
+	_objMeshData = OBJLoader::Load("Resources\\OBJ\\BasicShip.obj", _device);
 	herculesGeometry.indexBuffer = _objMeshData.IndexBuffer;
 	herculesGeometry.numberOfIndices = _objMeshData.IndexCount;
 	herculesGeometry.vertexBuffer = _objMeshData.VertexBuffer;
@@ -533,7 +533,7 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 
 	for (auto i = 0; i < 4; i++)
 	{
-		gameObject = new GameObject("Cube " + i, cubeGeometry, shinyMaterial);
+		gameObject = new GameObject("Cube" + i, cubeGeometry, shinyMaterial);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-2.0f + (i * 2.5f), 2.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_StoneTextureRV);
