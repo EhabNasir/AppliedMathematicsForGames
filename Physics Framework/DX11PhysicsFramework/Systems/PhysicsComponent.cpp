@@ -17,29 +17,5 @@ PhysicsComponent::~PhysicsComponent()
 
 void PhysicsComponent::ApplyImpulse(Vector3 _impulse)
 {
-	//Vector3 collisionNormal = m_transform->GetPosition() - _collidedObject->GetTransform()->GetPosition();
-	//collisionNormal.Normalize();
-	//Vector3 relativeVelocity =  GetVelocity() - _collidedObject->GetPhysics()->GetVelocity();
-	//float coeffRestitution = 1.0f;
-
-	//float seperatingVelocity = collisionNormal * relativeVelocity;
-
-	//if (seperatingVelocity > 0)
-	//	return;
-
-	////float newSeperatingVelocity = -seperatingVelocity * coeffRestitution;
-
-	////float deltaVelocity = newSeperatingVelocity - seperatingVelocity;
-
-	//float totalInverseMass = GetInverseMass() + _collidedObject->GetPhysics()->GetInverseMass();
-
-	//float scalarImpulseMag = -((1 + coeffRestitution)*(relativeVelocity * collisionNormal)) / totalInverseMass;
-
-	//Vector3 impulse1 = GetInverseMass() * scalarImpulseMag * collisionNormal;
-	//Vector3 impulse2 = -(_collidedObject->GetPhysics()->GetInverseMass() * scalarImpulseMag * collisionNormal);
-
-	//SetVelocity(GetVelocity() + impulse1);
-	//_collidedObject->GetPhysics()->SetVelocity(_collidedObject->GetPhysics()->GetVelocity() + impulse2);
-
 	SetVelocity(GetVelocity() + _impulse);
 }

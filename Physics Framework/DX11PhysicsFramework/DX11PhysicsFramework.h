@@ -23,6 +23,7 @@
 #include "SphereCollider.h"
 #include "PlaneCollider.h"
 #include "ParticleForceRegistry.h"
+#include "ThrustGenerator.h"
 #include "ParticleGravity.h"
 #include "ParticleDrag.h"
 

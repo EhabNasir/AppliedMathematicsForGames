@@ -20,6 +20,7 @@ public:
 	void SimulateFriction(bool _hasContact, float _deltaTime) override;
 
 	void LinearStabiliser(Vector3 _desiredVelocity) override;
+	void WorldLinearStabiliser(Vector3 _desiredVelocity) override;
 
 private:
 	Vector3 m_startPosition;

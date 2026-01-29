@@ -26,7 +26,9 @@ public:
 
 	virtual void AddForce(Vector3 _force) { m_netForce += _force; }
 	virtual void LinearStabiliser(Vector3 _desiredVelocity) = 0;
+	virtual void WorldLinearStabiliser(Vector3 _desiredVelocity) = 0;
 
+	virtual Quaternion GetOrientation() { return m_orientation; }
 	virtual Vector3 GetAngularVelocity() { return m_velocity; }
 	virtual void SetAngularVelocity(Vector3 _newVelocity) { m_angularVelocity = _newVelocity; }
 	virtual void AddRotationalForce(Vector3 _force) { m_netAngularForce += _force; }
@@ -36,6 +38,10 @@ public:
 	virtual	Vector3 SimulateDrag() = 0;
 	virtual	void SimulateFriction(bool _hasContact, float _deltaTime) = 0;
 	virtual void ApplyImpulse(Vector3 _impulse);
+
+	//Ship Variables -> abstract later
+	Vector3 GetThrottle() { return m_throttle; }
+	virtual void SetThrottle(Vector3 _throttle) { m_throttle += _throttle; }
 
 	bool IsCollideable() const { return m_collider != nullptr; }
 
@@ -56,6 +62,10 @@ protected:
 	Vector3 m_acceleration;
 	Vector3 m_netForce;
 
+	//Ship Variables -> abstract later
+	Vector3 m_throttle = Vector3(0, 0, 0);
+
+	Quaternion m_orientation;
 	Vector3 m_netAngularForce;
 	Vector3 m_angularVelocity;
 

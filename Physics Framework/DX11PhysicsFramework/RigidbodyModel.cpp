@@ -61,6 +61,7 @@ void RigidBodyModel::Update(float _deltaTime)
     m_angularVelocity *= m_angularDampening;
 
     m_torque = Vector3(0, 0, 0);
+    SetThrottle(Vector3(0, 0, 0));
 
     //clear forces
     m_netForce = Vector3(0, 0, 0);
@@ -145,6 +146,19 @@ void RigidBodyModel::CalculateRotation(Vector3 _force,Vector3 _point, Vector3 _h
 void RigidBodyModel::LinearStabiliser(Vector3 _desiredVelocity)
 {
     Vector3 forwardVelocity = QVRotate(m_orientation, _desiredVelocity);
+
+    Vector3 unwantedVelocity = m_velocity - forwardVelocity;
+
+    Vector3 error = -unwantedVelocity;
+
+    Vector3 stabiliserForce = error * 0.3;
+
+    AddForce(stabiliserForce);
+}
+
+void RigidBodyModel::WorldLinearStabiliser(Vector3 _desiredVelocity)
+{
+    Vector3 forwardVelocity = _desiredVelocity;
 
     Vector3 unwantedVelocity = m_velocity - forwardVelocity;
 

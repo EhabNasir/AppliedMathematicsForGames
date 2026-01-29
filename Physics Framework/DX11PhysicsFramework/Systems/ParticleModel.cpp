@@ -107,6 +107,11 @@ void ParticleModel::LinearStabiliser(Vector3 _desiredVelocity)
     AddForce(stabiliserForce);
 }
 
+void ParticleModel::WorldLinearStabiliser(Vector3 _d)
+{
+
+}
+
 void Reset()
 {
 

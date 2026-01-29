@@ -520,10 +520,11 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	m_forceRegistry = ParticleForceRegistry();
 	ParticleGravity* Generator_Gravity = new ParticleGravity();
 	ParticleDrag* Generator_Drag = new ParticleDrag();
+	ThrustGenerator* Generator_Thrust = new ThrustGenerator();
 
 	GameObject* gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial);
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
+	gameObject->GetTransform()->SetScale(150.0f, 150.0f, 0.0f);
 	gameObject->GetTransform()->SetRotation(90.0f, 0.0f, 0.0f);
 	gameObject->GetAppearance()->SetTextureRV(_GroundTextureRV);
 	Collider* collider = new PlaneCollider(gameObject->GetTransform(), Vector3(0, 1, 0));
@@ -540,8 +541,9 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 		Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
 		//Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
 		gameObject->GetPhysics()->SetCollider(collider);
-		//m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Gravity);
+		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Gravity);
 		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Drag);
+		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Thrust);
 
 		_gameObjects.push_back(gameObject);
 	}
@@ -611,7 +613,8 @@ void DX11PhysicsFramework::Update()
 	//simpleCount += deltaTime;
 	//Debug::PrintArguments("My name is %i%s \n", 4, ".");
 
-	Vector3 velo = Vector3(10000,0,0);
+	Vector3 velo = Vector3(0,0,1000);
+	Vector3 roll = Vector3(250,0,0);
 
 	_gameObjects[1]->hasPhysics = true;
 	_gameObjects[2]->hasPhysics = true;
@@ -621,23 +624,42 @@ void DX11PhysicsFramework::Update()
 	// Move gameobjects
 	if (GetAsyncKeyState('W'))
 	{
-		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(0, 0, 8000));
+		_gameObjects[1]->GetPhysics()->LinearStabiliser(velo);
+		//_gameObjects[1]->GetPhysics()->SetThrottle(velo);
+		//Debug::PrintArguments("%f", _gameObjects[1]->GetPhysics()->GetThrottle());
 	}
 	if (GetAsyncKeyState('Q'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 1, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .0005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
+		//_gameObjects[1]->GetPhysics()->WorldLinearStabiliser(-roll);
 	}
 	if (GetAsyncKeyState('E'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 1, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .0005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
+		//_gameObjects[1]->GetPhysics()->WorldLinearStabiliser(roll);
 	}
 	if (GetAsyncKeyState('S'))
 	{
-		_gameObjects[1]->GetPhysics()->LinearStabiliser(Vector3(0, 0, -8000));
+		//Swap out for retrograde thrusters
+		_gameObjects[1]->GetPhysics()->LinearStabiliser(-velo);
+	}
+	if (GetAsyncKeyState('A'))
+	{
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, .005), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+	}
+	if (GetAsyncKeyState('D'))
+	{
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, .005), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('R'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 1, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
+	}
+	if (GetAsyncKeyState('F'))
+	{
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
 	}
 
 	m_collisionHandler->ProcessGameObjects(_gameObjects);
@@ -666,11 +688,27 @@ void DX11PhysicsFramework::Update()
 	float x = _cameraOrbitRadius * cos(angleAroundZ);
 	float z = _cameraOrbitRadius * sin(angleAroundZ);
 
-	XMFLOAT3 cameraPos = _camera->GetPosition();
-	cameraPos.x = x;
-	cameraPos.z = z;
+	Transform* target = _gameObjects[1]->GetTransform();
 
-	_camera->SetPosition(cameraPos);
+	// --- Local camera offset (relative to object) ---
+	Vector3 localOffset(0.0f, 1.0f, -9.0f);   // up + behind
+
+	// --- Rotate offset by object's orientation ---
+	Vector3 rotatedOffset = QVRotate(
+		target->GetOrientation(),
+		localOffset
+	);
+
+	// --- Final camera position ---
+	Vector3 cameraPos = target->GetPosition() + rotatedOffset;
+
+	// --- Set camera ---
+	_camera->SetPosition(XMFLOAT3(cameraPos.x, cameraPos.y, cameraPos.z));
+
+	// Look at the object (or slightly above it)
+	Vector3 lookAt = target->GetPosition() + Vector3(0, 1.0f, 0);
+	_camera->SetLookAt(XMFLOAT3(lookAt.x, lookAt.y, lookAt.z));
+
 	_camera->Update();
 
 	float deltaTime = timer.GetDeltaTime();
