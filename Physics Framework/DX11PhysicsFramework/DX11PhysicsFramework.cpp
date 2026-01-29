@@ -485,7 +485,7 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	basicLight.LightVecW = XMFLOAT3(0.0f, 0.5f, -1.0f);
 
 	Geometry herculesGeometry;
-	_objMeshData = OBJLoader::Load("Resources\\OBJ\\BasicShip.obj", _device);
+	_objMeshData = OBJLoader::Load("Resources\\OBJ\\BasicFrog.obj", _device);
 	herculesGeometry.indexBuffer = _objMeshData.IndexBuffer;
 	herculesGeometry.numberOfIndices = _objMeshData.IndexCount;
 	herculesGeometry.vertexBuffer = _objMeshData.VertexBuffer;
@@ -534,14 +534,14 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 
 	for (auto i = 0; i < 4; i++)
 	{
-		gameObject = new GameObject("Cube" + i, cubeGeometry, shinyMaterial);
+		gameObject = new GameObject("Cube" + i, herculesGeometry, shinyMaterial);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-2.0f + (i * 2.5f), 2.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_StoneTextureRV);
 		Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
 		//Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
 		gameObject->GetPhysics()->SetCollider(collider);
-		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Gravity);
+		//m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Gravity);
 		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Drag);
 		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Thrust);
 
@@ -613,8 +613,8 @@ void DX11PhysicsFramework::Update()
 	//simpleCount += deltaTime;
 	//Debug::PrintArguments("My name is %i%s \n", 4, ".");
 
-	Vector3 velo = Vector3(0,0,1000);
-	Vector3 roll = Vector3(250,0,0);
+	Vector3 velo = Vector3(0,0,8000);
+	Vector3 roll = Vector3(2500,0,0);
 
 	_gameObjects[1]->hasPhysics = true;
 	_gameObjects[2]->hasPhysics = true;
@@ -630,13 +630,13 @@ void DX11PhysicsFramework::Update()
 	}
 	if (GetAsyncKeyState('Q'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .5, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .0005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->WorldLinearStabiliser(-roll);
 	}
 	if (GetAsyncKeyState('E'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .5, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .0005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->WorldLinearStabiliser(roll);
 	}
@@ -647,19 +647,19 @@ void DX11PhysicsFramework::Update()
 	}
 	if (GetAsyncKeyState('A'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, .005), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, .5), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('D'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, .005), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, .5), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('R'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .5, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('F'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .5, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
 	}
 
 	m_collisionHandler->ProcessGameObjects(_gameObjects);
