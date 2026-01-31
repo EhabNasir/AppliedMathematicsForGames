@@ -7,10 +7,28 @@ RigidBodyModel::RigidBodyModel(Transform* _transform, float _mass) : PhysicsComp
 {
     m_inverseMass = (_mass > 0.0f) ? 1.0f / _mass : 0.0f;
 
+    //m_inertiaTensor = XMFLOAT3X3(
+    //    1, 0, 0,
+    //    0, 1, 0,
+    //    0, 0, 1
+    //);
+
+    m_inverseMass = (_mass > 0.0f) ? 1.0f / _mass : 0.0f;
+
+    //Hard coded for now
+    float width = 1.0f;
+    float height = 1.0f;
+    float depth = 1.0f;
+
+    //NOTE: only for box not sphere I = (1/12) * mass * (dimension1 ^ 2 + dimension2 ^ 2)
+    float Ixx = (1.0f / 12.0f) * _mass * (height * height + depth * depth);
+    float Iyy = (1.0f / 12.0f) * _mass * (width * width + depth * depth);
+    float Izz = (1.0f / 12.0f) * _mass * (width * width + height * height);
+
     m_inertiaTensor = XMFLOAT3X3(
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1
+        Ixx, 0, 0,
+        0, Iyy, 0,
+        0, 0, Izz
     );
 }
 
@@ -44,10 +62,19 @@ void RigidBodyModel::Update(float _deltaTime)
 
     m_angularVelocity += angularAcceleration * _deltaTime;
 
+    // Clamp angular velocity
+    const float maxAngularSpeed = 5.0f; // Adjust as needed
+    float angularSpeed = m_angularVelocity.Magnitude();
+    if (angularSpeed > maxAngularSpeed) {
+        m_angularVelocity = (m_angularVelocity / angularSpeed) * maxAngularSpeed;
+    }
+
     Quaternion dq(0.0f, m_angularVelocity.x, m_angularVelocity.y, m_angularVelocity.z);
 
-    dq = m_orientation * dq;
+    //REMEMBER TO WRITE IN REPORT THE YOU MULTIPLIED Q DERIVATIVE BEFORE SCALING BY DELTA TIME WHICH LEAD TO INSTABILITY
     dq *= 0.5f * _deltaTime;
+    dq = m_orientation * dq;
+
     m_orientation += dq;
 
     //normalise orientation
@@ -88,7 +115,7 @@ Vector3 RigidBodyModel::SimulateDrag()
 
     float dragMagnitude = k1 * speed + k2 * std::pow(speed, 2);
 
-    Vector3 dragForce = -v * dragMagnitude;
+    Vector3 dragForce = -v * dragMagnitude * 0.8f;
 
     return dragForce;
 }
@@ -133,14 +160,6 @@ void RigidBodyModel::CalculateRotation(Vector3 _force,Vector3 _point, Vector3 _h
 
     //t = r x f
     m_torque += r ^ _force;
-
-    //float x = _halfExtents.x * _halfExtents.x;
-    //float y = _halfExtents.y * _halfExtents.y;
-    //float z = _halfExtents.z * _halfExtents.z;
-
-    //m_inertiaTensor._11 = 1 / 12 * m_mass * (y + z);
-    //m_inertiaTensor._22 = 1 / 12 * m_mass * (x + z);
-    //m_inertiaTensor._33 = 1 / 12 * m_mass * (x + y);
 }
 
 void RigidBodyModel::LinearStabiliser(Vector3 _desiredVelocity)

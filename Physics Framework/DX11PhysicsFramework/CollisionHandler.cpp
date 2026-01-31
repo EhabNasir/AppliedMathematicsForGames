@@ -1,5 +1,7 @@
 #include "CollisionHandler.h"
 #include "GameObject.h"
+#include "PlaneCollider.h"
+#include "Debug.h"
 
 void CollisionHandler::ProcessGameObjects(std::vector<GameObject*>& _gameObjects)
 {
@@ -30,9 +32,16 @@ void CollisionHandler::DetectCollisions(std::vector<GameObject*>& _gameObjects)
 				collision.obj1 = objA;
 				collision.obj2 = objB;
 
-				Vector3 collisionNormal = objA->GetTransform()->GetPosition() - objB->GetTransform()->GetPosition();
-				collisionNormal.Normalize();
-				collision.normal = collisionNormal;
+				bool isPlaneCollision = (dynamic_cast<PlaneCollider*>(objA->GetPhysics()->GetCollider()) != nullptr ||
+					dynamic_cast<PlaneCollider*>(objB->GetPhysics()->GetCollider()) != nullptr);
+
+				if (!isPlaneCollision)
+				{
+					// Box-box collision - calculate normal from positions
+					Vector3 collisionNormal = objA->GetTransform()->GetPosition() - objB->GetTransform()->GetPosition();
+					collisionNormal.Normalize();
+					collision.normal = collisionNormal;
+				}
 
 				m_collisions.push_back(collision);
 			}
@@ -65,10 +74,12 @@ void CollisionHandler::Resolveimpulse()
 		Vector3 point = i.obj1->GetTransform()->GetPosition() + Vector3(0, 0, 1);
 		Vector3 point2 = i.obj2->GetTransform()->GetPosition() + Vector3(0, 0, 1);
 
-		i.obj1->GetPhysics()->ApplyImpulse(impulse1 * 100);
-		i.obj1->GetPhysics()->CalculateRotation(impulse1 * 100, point, i.halfExtents);
+		i.obj1->GetPhysics()->ApplyImpulse(impulse1 * 2);
+		i.obj1->GetPhysics()->CalculateRotation(impulse1 * 2, point, i.halfExtents);
 		i.obj2->GetPhysics()->ApplyImpulse(impulse2);
 		i.obj2->GetPhysics()->CalculateRotation(impulse2, point2, i.halfExtents);
+
+		Debug::PrintArguments("Collision");
 	}
 }
 

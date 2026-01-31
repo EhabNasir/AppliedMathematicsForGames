@@ -33,6 +33,6 @@ private:
 	Vector3 m_angularVelocity;
 	XMVECTOR transformMatrix;
 	XMFLOAT3X3 m_inertiaTensor;
-	float m_angularDampening = 0.99f;
+	float m_angularDampening = 0.94f;
 };
 

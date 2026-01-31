@@ -36,5 +36,14 @@ bool PlaneCollider::CollidesWith(BoundingBoxCollider& _other, CollisionInfo& _in
 
 	float distance = (m_normal * boxCentre) + m_distance;
 
-	return distance <= projectedRadius;
+	if (distance <= projectedRadius)
+	{
+		_info.penDepth = projectedRadius - distance;
+		_info.normal = m_normal;
+		_info.halfExtents = boxCentre - m_normal * distance;
+
+		return true;
+	}
+
+	return false;
 }

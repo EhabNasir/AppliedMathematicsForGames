@@ -51,5 +51,12 @@ bool BoundingBoxCollider::CollidesWith(SphereCollider& _other, CollisionInfo& _i
 
 bool BoundingBoxCollider::CollidesWith(PlaneCollider& _other, CollisionInfo& _info)
 {
-	return false;
+    bool collided = _other.CollidesWith(*this, _info);
+
+    if (collided)
+    {
+        _info.normal = _info.normal * -1.0f;
+    }
+
+    return collided;
 }

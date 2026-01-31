@@ -602,6 +602,70 @@ DX11PhysicsFramework::~DX11PhysicsFramework()
 
 void DX11PhysicsFramework::Update()
 {
+//	//camera controls
+//	static POINT lastMouse;
+//
+//	POINT mouse;
+//	GetCursorPos(&mouse);
+//	ScreenToClient(GetActiveWindow(), &mouse);
+//
+//	RECT rect;
+//	GetClientRect(GetActiveWindow(), &rect);
+//	POINT centre;
+//	centre.x = (rect.right - rect.left) / 2;
+//	centre.y = (rect.bottom - rect.top) / 2;
+//
+//	float mouseDX = float(mouse.x - lastMouse.x);
+//	float mouseDY = float(mouse.y - lastMouse.y);
+//	lastMouse = mouse;
+//
+//	float mouseSensitivity = 0.09f;
+//	mouseDX *= mouseSensitivity;
+//	mouseDY *= mouseSensitivity;
+//
+//	// --- Ship basis ---
+//// --- Ship basis ---
+//	Vector3 worldUp(0, 1, 0);
+//
+//	// Ship forward from orientation
+//	Vector3 shipForward = QVRotate(
+//		_gameObjects[1]->GetTransform()->GetOrientation(),
+//		Vector3(0, 0, 1)
+//	);
+//	shipForward.Normalize();
+//
+//	// Stable right axis (prevents roll)
+//	Vector3 shipRight = worldUp ^ shipForward;
+//	shipRight.Normalize();
+//
+//	// *** NEW: Calculate ship's local up axis ***
+//	Vector3 shipUp = shipForward ^ shipRight;
+//	shipUp.Normalize();
+//
+//	// --- Convert mouse to rotation intent ---
+//	float yawInput = mouseDX;     // left/right
+//	float pitchInput = -mouseDY;    // up/down (invert if needed)
+//
+//	// --- Torque (NO roll component) ---
+//	float turnStrength = 1000.0f;
+//
+//	Vector3 torque =
+//		shipRight * pitchInput * turnStrength +  // pitch
+//		shipUp * yawInput * turnStrength;   // yaw
+//
+//	Vector3 worldOffset = QVRotate(_gameObjects[1]->GetTransform()->GetOrientation(), Vector3(0, 0, 0.6f));
+//
+//	// Apply rotation
+//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, torque.x, 0),
+//		_gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
+//
+//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(torque.y, 0, 0),
+//		_gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
+//	// After applying rotations, normalize the quaternion to prevent drift
+//	Quaternion currentOrientation = _gameObjects[1]->GetTransform()->GetOrientation();
+//	_gameObjects[1]->GetTransform()->SetOrientation(currentOrientation/currentOrientation.Magnitude());
+//	//camera controls ^
+	
 	//Static initializes this value only once    
 	//static ULONGLONG frameStart = GetTickCount64();
 
@@ -613,8 +677,9 @@ void DX11PhysicsFramework::Update()
 	//simpleCount += deltaTime;
 	//Debug::PrintArguments("My name is %i%s \n", 4, ".");
 
-	Vector3 velo = Vector3(0,0,8000);
+	Vector3 velo = Vector3(0,0,80000);
 	Vector3 roll = Vector3(2500,0,0);
+	float rotateValue = 50000.0f;
 
 	_gameObjects[1]->hasPhysics = true;
 	_gameObjects[2]->hasPhysics = true;
@@ -630,13 +695,13 @@ void DX11PhysicsFramework::Update()
 	}
 	if (GetAsyncKeyState('Q'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .5, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, rotateValue, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .0005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->WorldLinearStabiliser(-roll);
 	}
 	if (GetAsyncKeyState('E'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .5, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, rotateValue, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .0005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->WorldLinearStabiliser(roll);
 	}
@@ -647,19 +712,19 @@ void DX11PhysicsFramework::Update()
 	}
 	if (GetAsyncKeyState('A'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, .5), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, rotateValue * 0.2f), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('D'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, .5), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, rotateValue * 0.2f), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('R'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .5, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, rotateValue * 0.2f, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('F'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .5, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, rotateValue * 0.2f, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
 	}
 
 	m_collisionHandler->ProcessGameObjects(_gameObjects);
@@ -690,26 +755,20 @@ void DX11PhysicsFramework::Update()
 
 	Transform* target = _gameObjects[1]->GetTransform();
 
-	// --- Local camera offset (relative to object) ---
-	Vector3 localOffset(0.0f, 1.0f, -9.0f);   // up + behind
+	Vector3 localOffset(0.0f, 1.0f, -9.0f);
 
-	// --- Rotate offset by object's orientation ---
-	Vector3 rotatedOffset = QVRotate(
-		target->GetOrientation(),
-		localOffset
-	);
+	Vector3 rotatedOffset = QVRotate(target->GetOrientation(), localOffset);
 
-	// --- Final camera position ---
 	Vector3 cameraPos = target->GetPosition() + rotatedOffset;
 
-	// --- Set camera ---
 	_camera->SetPosition(XMFLOAT3(cameraPos.x, cameraPos.y, cameraPos.z));
 
-	// Look at the object (or slightly above it)
 	Vector3 lookAt = target->GetPosition() + Vector3(0, 1.0f, 0);
 	_camera->SetLookAt(XMFLOAT3(lookAt.x, lookAt.y, lookAt.z));
 
 	_camera->Update();
+
+
 
 	float deltaTime = timer.GetDeltaTime();
 	std::string deltaTimeString = std::to_string(deltaTime);
