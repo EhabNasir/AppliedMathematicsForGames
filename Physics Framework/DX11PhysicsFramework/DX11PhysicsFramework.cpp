@@ -530,23 +530,25 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	gameObject->GetAppearance()->SetTextureRV(_GroundTextureRV);
 	Collider* collider = new PlaneCollider(gameObject->GetTransform(), Vector3(0, 1, 0));
 	gameObject->GetPhysics()->SetCollider(collider);
+	gameObject->GetPhysics()->SetInverseMass(0);
 
 	_gameObjects.push_back(gameObject);
 
 	for (auto i = 0; i < 4; i++)
 	{
-		gameObject = new GameObject("Cube" + i, herculesGeometry, shinyMaterial);
+		gameObject = new GameObject("Cube" + i, cubeGeometry, shinyMaterial);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-2.0f + (i * 2.5f), 2.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_paintTextureRV);
 		Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
 		//Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
 		gameObject->GetPhysics()->SetCollider(collider);
-		//m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Gravity);
+		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Gravity);
 		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Drag);
 		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Thrust);
 
 		_gameObjects.push_back(gameObject);
+		_selectableObjects.push_back(gameObject);
 	}
 
 	gameObject = new GameObject("Donut", herculesGeometry, shinyMaterial);
@@ -682,10 +684,34 @@ void DX11PhysicsFramework::Update()
 	Vector3 roll = Vector3(2500,0,0);
 	float rotateValue = 50000.0f;
 
+	//not loopinf through all gameobjects since I dont want camera to have physics
 	_gameObjects[1]->hasPhysics = true;
+	Debug::PrintArguments("%f", _gameObjects[1]->GetTransform()->GetPosition().y);
 	_gameObjects[2]->hasPhysics = true;
 	_gameObjects[3]->hasPhysics = true;
 	_gameObjects[4]->hasPhysics = true;
+
+	//set
+
+	for (GameObject* g : _selectableObjects)
+	{
+		if (g->GetIsSelected())
+		{
+			g->GetAppearance()->SetTextureRV(_StoneTextureRV);
+		}
+		else
+		{
+			g->GetAppearance()->SetTextureRV(_paintTextureRV);
+		}
+	}
+
+	if (GetAsyncKeyState('U'))
+	{
+		if (selectionIndex != _selectableObjects.size())
+		{
+			selectionIndex++;
+		}
+	}
 
 	// Move gameobjects
 	if (GetAsyncKeyState('W'))

@@ -71,6 +71,7 @@ private:
 
 	MeshData _objMeshData;
 	vector<GameObject*> _gameObjects;
+	vector<GameObject*> _selectableObjects;
 
 	CollisionHandler* m_collisionHandler;
 
@@ -91,6 +92,7 @@ private:
 
 	Timer timer;
 	float accumulator = 0.0f;
+	int selectionIndex = 0;
 
 	//Force Generator Variables
 	ParticleForceRegistry m_forceRegistry;
