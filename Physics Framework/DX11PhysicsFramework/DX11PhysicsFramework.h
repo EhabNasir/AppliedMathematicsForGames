@@ -61,6 +61,7 @@ private:
 	ID3D11Texture2D* _depthStencilBuffer = nullptr;
 
 	ID3D11ShaderResourceView* _StoneTextureRV = nullptr;
+	ID3D11ShaderResourceView* _paintTextureRV = nullptr;
 	ID3D11ShaderResourceView* _GroundTextureRV = nullptr;
 	ID3D11ShaderResourceView* _HerculesTextureRV = nullptr;
 

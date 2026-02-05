@@ -467,6 +467,7 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	if (FAILED(hr)) { return hr; }
 
 	hr = CreateDDSTextureFromFile(_device, L"Resources\\Textures\\stone.dds", nullptr, &_StoneTextureRV);
+	hr = CreateDDSTextureFromFile(_device, L"Resources\\Textures\\paint.dds", nullptr, &_paintTextureRV);
 	hr = CreateDDSTextureFromFile(_device, L"Resources\\Textures\\floor.dds", nullptr, &_GroundTextureRV);
 	if (FAILED(hr)) { return hr; }
 
@@ -485,7 +486,7 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	basicLight.LightVecW = XMFLOAT3(0.0f, 0.5f, -1.0f);
 
 	Geometry herculesGeometry;
-	_objMeshData = OBJLoader::Load("Resources\\OBJ\\BasicFrog.obj", _device);
+	_objMeshData = OBJLoader::Load("Resources\\OBJ\\donut.obj", _device);
 	herculesGeometry.indexBuffer = _objMeshData.IndexBuffer;
 	herculesGeometry.numberOfIndices = _objMeshData.IndexCount;
 	herculesGeometry.vertexBuffer = _objMeshData.VertexBuffer;
@@ -537,7 +538,7 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 		gameObject = new GameObject("Cube" + i, herculesGeometry, shinyMaterial);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-2.0f + (i * 2.5f), 2.0f, 10.0f);
-		gameObject->GetAppearance()->SetTextureRV(_StoneTextureRV);
+		gameObject->GetAppearance()->SetTextureRV(_paintTextureRV);
 		Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
 		//Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
 		gameObject->GetPhysics()->SetCollider(collider);

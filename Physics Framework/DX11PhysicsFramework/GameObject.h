@@ -36,6 +36,9 @@ public:
 	void Move(Vector3 direction);
 	void Draw(ID3D11DeviceContext * pImmediateContext);
 
+	void SetIsSelected(bool _selection) { _isSelected = _selection; }
+	bool GetIsSelected() { return _isSelected; }
+
 private:
 	GameObject* _parent = nullptr;
 
@@ -43,6 +46,8 @@ private:
 	Appearance* _appearance;
 	ParticleModel* m_particleModel;
 	RigidBodyModel* m_rigidBody;
+
+	bool _isSelected;
 
 	string _type;
 	//XMFLOAT4X4 _world;
