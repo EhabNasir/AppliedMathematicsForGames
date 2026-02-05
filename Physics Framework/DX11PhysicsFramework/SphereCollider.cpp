@@ -26,5 +26,13 @@ bool SphereCollider::CollidesWith(BoundingBoxCollider& _other, CollisionInfo& _i
 
 bool SphereCollider::CollidesWith(PlaneCollider& _other, CollisionInfo& _info)
 {
-	return false;
+	bool collided = _other.CollidesWith(*this, _info);
+
+	if (collided)
+	{
+		//Negated to resolve in the opposite direction
+		_info.normal = _info.normal * -1.0f;
+	}
+
+	return collided;
 }

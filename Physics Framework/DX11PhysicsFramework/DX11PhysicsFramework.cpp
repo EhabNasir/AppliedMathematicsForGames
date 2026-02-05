@@ -686,7 +686,7 @@ void DX11PhysicsFramework::Update()
 
 	//not loopinf through all gameobjects since I dont want camera to have physics
 	_gameObjects[1]->hasPhysics = true;
-	Debug::PrintArguments("%f", _gameObjects[1]->GetTransform()->GetPosition().y);
+	//Debug::PrintArguments("%f", _gameObjects[1]->GetTransform()->GetPosition().y);
 	_gameObjects[2]->hasPhysics = true;
 	_gameObjects[3]->hasPhysics = true;
 	_gameObjects[4]->hasPhysics = true;

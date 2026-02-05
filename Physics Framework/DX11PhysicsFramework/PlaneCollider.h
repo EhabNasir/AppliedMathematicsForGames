@@ -13,6 +13,6 @@ public:
 
 private:
 	Vector3 m_normal;
-	float m_distance;
+	float m_distance = 0;
 };
 
