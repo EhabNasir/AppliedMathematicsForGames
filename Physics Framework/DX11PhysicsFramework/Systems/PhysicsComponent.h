@@ -23,6 +23,7 @@ public:
 	virtual float GetInverseMass() { return m_inverseMass; }
 	virtual float GetMass() { return m_mass; }
 	void SetInverseMass(float _newMass) { m_inverseMass = _newMass; }
+	void SetMass(float _newMass) { m_mass = _newMass; }
 	float GetGravitationalConstant() { return m_gravitationalConstant; }
 
 	virtual void AddForce(Vector3 _force) { m_netForce += _force; }

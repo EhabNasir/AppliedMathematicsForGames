@@ -538,7 +538,7 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	{
 		gameObject = new GameObject("Cube" + i, cubeGeometry, shinyMaterial);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
-		gameObject->GetTransform()->SetPosition(-2.0f + (i * 2.5f), 2.0f, 10.0f);
+		gameObject->GetTransform()->SetPosition(-2.0f + (i * 5.0f), 2.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_paintTextureRV);
 		Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
 		//Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
@@ -550,6 +550,9 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 		_gameObjects.push_back(gameObject);
 		_selectableObjects.push_back(gameObject);
 	}
+
+	_gameObjects[3]->GetTransform()->SetPosition(-2.0f + (2 * 3.0f), 6.0f, 10.0f);
+	_gameObjects[3]->GetPhysics()->SetMass(4.0f);
 
 	gameObject = new GameObject("Donut", herculesGeometry, shinyMaterial);
 	gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
@@ -606,67 +609,67 @@ DX11PhysicsFramework::~DX11PhysicsFramework()
 void DX11PhysicsFramework::Update()
 {
 //	//camera controls
-	static POINT lastMouse;
-
-	POINT mouse;
-	GetCursorPos(&mouse);
-	ScreenToClient(GetActiveWindow(), &mouse);
-
-	RECT rect;
-	GetClientRect(GetActiveWindow(), &rect);
-	POINT centre;
-	centre.x = (rect.right - rect.left) / 2;
-	centre.y = (rect.bottom - rect.top) / 2;
-
-	float mouseDX = float(mouse.x - lastMouse.x);
-	float mouseDY = float(mouse.y - lastMouse.y);
-	lastMouse = mouse;
-
-	float mouseSensitivity = 0.09f;
-	mouseDX *= mouseSensitivity;
-	mouseDY *= mouseSensitivity;
-
-	// --- Ship basis ---
-// --- Ship basis ---
-	Vector3 worldUp(0, 1, 0);
-
-	// Ship forward from orientation
-	Vector3 shipForward = QVRotate(
-		_gameObjects[1]->GetTransform()->GetOrientation(),
-		Vector3(0, 0, 1)
-	);
-	shipForward.Normalize();
-
-	// Stable right axis (prevents roll)
-	Vector3 shipRight = worldUp ^ shipForward;
-	shipRight.Normalize();
-
-	// *** NEW: Calculate ship's local up axis ***
-	Vector3 shipUp = shipForward ^ shipRight;
-	shipUp.Normalize();
-
-	// --- Convert mouse to rotation intent ---
-	float yawInput = mouseDX;     // left/right
-	float pitchInput = -mouseDY;    // up/down (invert if needed)
-
-	// --- Torque (NO roll component) ---
-	float turnStrength = 1000.0f;
-
-	Vector3 torque =
-		shipRight * pitchInput * turnStrength +  // pitch
-		shipUp * yawInput * turnStrength;   // yaw
-
-	Vector3 worldOffset = QVRotate(_gameObjects[1]->GetTransform()->GetOrientation(), Vector3(0, 0, 0.6f));
-
-	// Apply rotation
-	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, torque.x, 0),
-		_gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
-
-	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(torque.y, 0, 0),
-		_gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
-	// After applying rotations, normalize the quaternion to prevent drift
-	Quaternion currentOrientation = _gameObjects[1]->GetTransform()->GetOrientation();
-	_gameObjects[1]->GetTransform()->SetOrientation(currentOrientation/currentOrientation.Magnitude());
+//	static POINT lastMouse;
+//
+//	POINT mouse;
+//	GetCursorPos(&mouse);
+//	ScreenToClient(GetActiveWindow(), &mouse);
+//
+//	RECT rect;
+//	GetClientRect(GetActiveWindow(), &rect);
+//	POINT centre;
+//	centre.x = (rect.right - rect.left) / 2;
+//	centre.y = (rect.bottom - rect.top) / 2;
+//
+//	float mouseDX = float(mouse.x - lastMouse.x);
+//	float mouseDY = float(mouse.y - lastMouse.y);
+//	lastMouse = mouse;
+//
+//	float mouseSensitivity = 0.09f;
+//	mouseDX *= mouseSensitivity;
+//	mouseDY *= mouseSensitivity;
+//
+//	// --- Ship basis ---
+//// --- Ship basis ---
+//	Vector3 worldUp(0, 1, 0);
+//
+//	// Ship forward from orientation
+//	Vector3 shipForward = QVRotate(
+//		_gameObjects[1]->GetTransform()->GetOrientation(),
+//		Vector3(0, 0, 1)
+//	);
+//	shipForward.Normalize();
+//
+//	// Stable right axis (prevents roll)
+//	Vector3 shipRight = worldUp ^ shipForward;
+//	shipRight.Normalize();
+//
+//	// *** NEW: Calculate ship's local up axis ***
+//	Vector3 shipUp = shipForward ^ shipRight;
+//	shipUp.Normalize();
+//
+//	// --- Convert mouse to rotation intent ---
+//	float yawInput = mouseDX;     // left/right
+//	float pitchInput = -mouseDY;    // up/down (invert if needed)
+//
+//	// --- Torque (NO roll component) ---
+//	float turnStrength = 1000.0f;
+//
+//	Vector3 torque =
+//		shipRight * pitchInput * turnStrength +  // pitch
+//		shipUp * yawInput * turnStrength;   // yaw
+//
+//	Vector3 worldOffset = QVRotate(_gameObjects[1]->GetTransform()->GetOrientation(), Vector3(0, 0, 0.6f));
+//
+//	// Apply rotation
+//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, torque.x, 0),
+//		_gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
+//
+//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(torque.y, 0, 0),
+//		_gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
+//	// After applying rotations, normalize the quaternion to prevent drift
+//	Quaternion currentOrientation = _gameObjects[1]->GetTransform()->GetOrientation();
+//	_gameObjects[1]->GetTransform()->SetOrientation(currentOrientation/currentOrientation.Magnitude());
 	//camera controls ^
 	
 	//Static initializes this value only once    
@@ -739,11 +742,11 @@ void DX11PhysicsFramework::Update()
 	}
 	if (GetAsyncKeyState('A'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, rotateValue * 0.2f), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, rotateValue * 0.4f), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('D'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, rotateValue * 0.2f), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, rotateValue * 0.4f), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('R'))
 	{
