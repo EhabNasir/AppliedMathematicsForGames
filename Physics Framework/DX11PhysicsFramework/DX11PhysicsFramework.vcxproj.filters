@@ -47,6 +47,7 @@
     <ClInclude Include="ParticleDrag.h" />
     <ClInclude Include="Aerodynamics_Component.h" />
     <ClInclude Include="ThrustGenerator.h" />
+    <ClInclude Include="SpringForce.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX11PhysicsFramework.cpp" />
@@ -78,6 +79,7 @@
     <ClCompile Include="ParticleDrag.cpp" />
     <ClCompile Include="Aerodynamics_Component.cpp" />
     <ClCompile Include="ThrustGenerator.cpp" />
+    <ClCompile Include="SpringForce.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

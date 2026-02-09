@@ -554,6 +554,18 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	_gameObjects[3]->GetTransform()->SetPosition(-2.0f + (2 * 3.0f), 6.0f, 10.0f);
 	_gameObjects[3]->GetPhysics()->SetMass(4.0f);
 
+	//---------
+	//ADDING SPRINGS
+	//---------
+	SpringForce* Generator_Spring = new SpringForce(_gameObjects[2]->GetPhysics(), 0.0f, 2000.0f);
+	m_forceRegistry.AddParticle(_gameObjects[1]->GetPhysics(), Generator_Spring);
+
+	//SpringForce* Generator_Spring2 = new SpringForce(_gameObjects[1]->GetPhysics(), 0.0f, 0.9f);
+	//m_forceRegistry.AddParticle(_gameObjects[2]->GetPhysics(), Generator_Spring2);
+	//---------
+	//ADDING SPRINGS
+	//---------
+
 	gameObject = new GameObject("Donut", herculesGeometry, shinyMaterial);
 	gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 	gameObject->GetTransform()->SetPosition(-5.0f, 0.5f, 10.0f);

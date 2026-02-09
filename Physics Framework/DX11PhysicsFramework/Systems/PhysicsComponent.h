@@ -15,6 +15,8 @@ public:
 
 	virtual void Update(float _deltaTime) = 0;
 
+	Transform* GetTransform() { return m_transform; }
+
 	virtual Vector3 GetVelocity() { return m_velocity; }
 	virtual void SetVelocity(Vector3 _newVelocity) { m_velocity = _newVelocity; }
 

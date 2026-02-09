@@ -78,8 +78,6 @@ void CollisionHandler::Resolveimpulse()
 		i.obj1->GetPhysics()->CalculateRotation(impulse1 * 2, point, i.halfExtents);
 		i.obj2->GetPhysics()->ApplyImpulse(impulse2);
 		i.obj2->GetPhysics()->CalculateRotation(impulse2, point2, i.halfExtents);
-
-		Debug::PrintArguments("Collision");
 	}
 }
 

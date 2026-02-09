@@ -26,6 +26,7 @@
 #include "ThrustGenerator.h"
 #include "ParticleGravity.h"
 #include "ParticleDrag.h"
+#include "SpringForce.h"
 
 
 using namespace DirectX;
