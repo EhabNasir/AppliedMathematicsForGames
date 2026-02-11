@@ -74,9 +74,13 @@ void CollisionHandler::Resolveimpulse()
 		Vector3 point = i.obj1->GetTransform()->GetPosition() + Vector3(0, 0, 1);
 		Vector3 point2 = i.obj2->GetTransform()->GetPosition() + Vector3(0, 0, 1);
 
-		i.obj1->GetPhysics()->ApplyImpulse(impulse1 * 2);
-		i.obj1->GetPhysics()->CalculateRotation(impulse1 * 2, point, i.halfExtents);
-		i.obj2->GetPhysics()->ApplyImpulse(impulse2);
+		float  obj1Mass = i.obj1->GetPhysics()->GetMass();
+		float obj2Mass = i.obj2->GetPhysics()->GetMass();
+		float totalMass = obj1Mass + obj2Mass;
+
+		i.obj1->GetPhysics()->ApplyImpulse(impulse1 * obj1Mass / totalMass);
+		i.obj1->GetPhysics()->CalculateRotation(impulse1, point, i.halfExtents);
+		i.obj2->GetPhysics()->ApplyImpulse(impulse2 * obj1Mass / totalMass);
 		i.obj2->GetPhysics()->CalculateRotation(impulse2, point2, i.halfExtents);
 	}
 }

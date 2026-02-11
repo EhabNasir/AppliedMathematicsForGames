@@ -523,6 +523,7 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	ParticleDrag* Generator_Drag = new ParticleDrag();
 	ThrustGenerator* Generator_Thrust = new ThrustGenerator();
 
+	//Bottom Floor
 	GameObject* gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial);
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetTransform()->SetScale(150.0f, 150.0f, 0.0f);
@@ -531,14 +532,25 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	Collider* collider = new PlaneCollider(gameObject->GetTransform(), Vector3(0, 1, 0));
 	gameObject->GetPhysics()->SetCollider(collider);
 	gameObject->GetPhysics()->SetInverseMass(0);
-
 	_gameObjects.push_back(gameObject);
+
+	//Top Floor
+	//GameObject* ceiling = new GameObject("Floor", planeGeometry, noSpecMaterial);
+	//ceiling->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+	//ceiling->GetTransform()->SetScale(150.0f, 150.0f, 0.0f);
+	//ceiling->GetTransform()->SetRotation(90.0f, 0.0f, 0.0f);
+	//ceiling->GetAppearance()->SetTextureRV(_paintTextureRV);
+	//Collider* collider2 = new PlaneCollider(ceiling->GetTransform(), Vector3(0, 1, 0));
+	//ceiling->GetPhysics()->SetCollider(collider2);
+	//ceiling->GetPhysics()->SetInverseMass(0);
+	//_gameObjects.push_back(ceiling);
+
 
 	for (auto i = 0; i < 4; i++)
 	{
 		gameObject = new GameObject("Cube" + i, cubeGeometry, shinyMaterial);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
-		gameObject->GetTransform()->SetPosition(-2.0f + (i * 5.0f), 2.0f, 10.0f);
+		gameObject->GetTransform()->SetPosition(-2.0f , 2.0f, 2.0f - (i * 5.0f));
 		gameObject->GetAppearance()->SetTextureRV(_paintTextureRV);
 		Collider* collider = new BoundingBoxCollider(gameObject->GetTransform());
 		//Collider* collider = new SphereCollider(gameObject->GetTransform(), 1);
@@ -551,14 +563,26 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 		_selectableObjects.push_back(gameObject);
 	}
 
-	_gameObjects[3]->GetTransform()->SetPosition(-2.0f + (2 * 3.0f), 6.0f, 10.0f);
-	_gameObjects[3]->GetPhysics()->SetMass(4.0f);
+	//_gameObjects[3]->GetTransform()->SetPosition(-2.0f + (2 * 3.0f), 6.0f, 10.0f);
+	//_gameObjects[3]->GetPhysics()->SetMass(4.0f);
 
 	//---------
 	//ADDING SPRINGS
 	//---------
-	SpringForce* Generator_Spring = new SpringForce(_gameObjects[2]->GetPhysics(), 0.0f, 2000.0f);
+	SpringForce* Generator_Spring = new SpringForce(true, _gameObjects[2]->GetPhysics(), 10.3f, 10000000.0f);
 	m_forceRegistry.AddParticle(_gameObjects[1]->GetPhysics(), Generator_Spring);
+
+	SpringForce* Generator_Spring2 = new SpringForce(false, _gameObjects[3]->GetPhysics(), 10.3f, 10000000.0f);
+	m_forceRegistry.AddParticle(_gameObjects[2]->GetPhysics(), Generator_Spring2);
+
+	SpringForce* Generator_Spring3 = new SpringForce(false, _gameObjects[4]->GetPhysics(), 10.3f, 10000000.0f);
+	m_forceRegistry.AddParticle(_gameObjects[3]->GetPhysics(), Generator_Spring3);
+
+	_gameObjects[1]->GetTransform()->SetScale(2.0f, 0.8f, 2.0f);
+	_gameObjects[1]->GetPhysics()->SetMass(100);
+	_gameObjects[2]->GetTransform()->SetScale(1.4f, 0.4f, 1.4f);
+	_gameObjects[3]->GetTransform()->SetScale(1.0f, 0.4f, 1.0f);
+	_gameObjects[4]->GetTransform()->SetScale(0.6f, 0.4f, 0.6f);
 
 	//SpringForce* Generator_Spring2 = new SpringForce(_gameObjects[1]->GetPhysics(), 0.0f, 0.9f);
 	//m_forceRegistry.AddParticle(_gameObjects[2]->GetPhysics(), Generator_Spring2);
@@ -695,9 +719,11 @@ void DX11PhysicsFramework::Update()
 	//simpleCount += deltaTime;
 	//Debug::PrintArguments("My name is %i%s \n", 4, ".");
 
-	Vector3 velo = Vector3(0,0,80000);
-	Vector3 roll = Vector3(2500,0,0);
-	float rotateValue = 50000.0f;
+	Vector3 velo = Vector3(0,0,2000);
+	float roll = 200.0f;
+	float pitch = 200.0f;
+	float yaw = 500.0f;
+	float rotateValue = 5000.0f;
 
 	//not loopinf through all gameobjects since I dont want camera to have physics
 	_gameObjects[1]->hasPhysics = true;
@@ -737,13 +763,13 @@ void DX11PhysicsFramework::Update()
 	}
 	if (GetAsyncKeyState('Q'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, rotateValue, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, roll, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .0005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->WorldLinearStabiliser(-roll);
 	}
 	if (GetAsyncKeyState('E'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, rotateValue, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, roll, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, .0005, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
 		//_gameObjects[1]->GetPhysics()->WorldLinearStabiliser(roll);
 	}
@@ -754,19 +780,19 @@ void DX11PhysicsFramework::Update()
 	}
 	if (GetAsyncKeyState('A'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, rotateValue * 0.4f), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, yaw), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('D'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, rotateValue * 0.4f), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, 0, yaw), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(-1, 0, 0), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('R'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, rotateValue * 0.2f, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, pitch, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, 1), Vector3(0, 0, 0));
 	}
 	if (GetAsyncKeyState('F'))
 	{
-		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, rotateValue * 0.2f, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
+		_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, pitch, 0), _gameObjects[1]->GetTransform()->GetPosition() + Vector3(0, 0, -1), Vector3(0, 0, 0));
 	}
 
 	m_collisionHandler->ProcessGameObjects(_gameObjects);
@@ -797,7 +823,7 @@ void DX11PhysicsFramework::Update()
 
 	Transform* target = _gameObjects[1]->GetTransform();
 
-	Vector3 localOffset(0.0f, 1.0f, -9.0f);
+	Vector3 localOffset(0.0f, 1.0f, -39.0f);
 
 	Vector3 rotatedOffset = QVRotate(target->GetOrientation(), localOffset);
 
@@ -814,7 +840,6 @@ void DX11PhysicsFramework::Update()
 
 	float deltaTime = timer.GetDeltaTime();
 	std::string deltaTimeString = std::to_string(deltaTime);
-
 	timer.Tick();
 
 	accumulator += deltaTime;
@@ -822,10 +847,10 @@ void DX11PhysicsFramework::Update()
 	{
 		//OutputDebugStringA(deltaTimeString.c_str());
 		//OutputDebugStringA((std::to_string(FPS60)).c_str());
+		m_forceRegistry.UpdateForces(FPS60);
 		// Update objects
 		for (auto gameObject : _gameObjects)
 		{
-			m_forceRegistry.UpdateForces(deltaTime);
 			//gameObject->Update(deltaTime);
 			gameObject->Update(FPS60);
 		}
