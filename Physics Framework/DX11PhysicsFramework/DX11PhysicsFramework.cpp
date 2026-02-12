@@ -569,17 +569,17 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	//---------
 	//ADDING SPRINGS
 	//---------
-	SpringForce* Generator_Spring = new SpringForce(true, _gameObjects[2]->GetPhysics(), 10.3f, 10000000.0f);
+	SpringForce* Generator_Spring = new SpringForce(true, _gameObjects[2]->GetPhysics(), 10.3f, 1000000.0f);
 	m_forceRegistry.AddParticle(_gameObjects[1]->GetPhysics(), Generator_Spring);
 
-	SpringForce* Generator_Spring2 = new SpringForce(false, _gameObjects[3]->GetPhysics(), 10.3f, 10000000.0f);
+	SpringForce* Generator_Spring2 = new SpringForce(false, _gameObjects[3]->GetPhysics(), 10.3f, 100000.0f);
 	m_forceRegistry.AddParticle(_gameObjects[2]->GetPhysics(), Generator_Spring2);
 
-	SpringForce* Generator_Spring3 = new SpringForce(false, _gameObjects[4]->GetPhysics(), 10.3f, 10000000.0f);
+	SpringForce* Generator_Spring3 = new SpringForce(false, _gameObjects[4]->GetPhysics(), 10.3f, 100000.0f);
 	m_forceRegistry.AddParticle(_gameObjects[3]->GetPhysics(), Generator_Spring3);
 
-	_gameObjects[1]->GetTransform()->SetScale(2.0f, 0.8f, 2.0f);
 	_gameObjects[1]->GetPhysics()->SetMass(100);
+	_gameObjects[1]->GetTransform()->SetScale(2.0f, 0.8f, 2.0f);
 	_gameObjects[2]->GetTransform()->SetScale(1.4f, 0.4f, 1.4f);
 	_gameObjects[3]->GetTransform()->SetScale(1.0f, 0.4f, 1.0f);
 	_gameObjects[4]->GetTransform()->SetScale(0.6f, 0.4f, 0.6f);
@@ -665,45 +665,39 @@ void DX11PhysicsFramework::Update()
 //	mouseDX *= mouseSensitivity;
 //	mouseDY *= mouseSensitivity;
 //
-//	// --- Ship basis ---
-//// --- Ship basis ---
+//
+//
 //	Vector3 worldUp(0, 1, 0);
 //
-//	// Ship forward from orientation
+//
 //	Vector3 shipForward = QVRotate(
 //		_gameObjects[1]->GetTransform()->GetOrientation(),
 //		Vector3(0, 0, 1)
 //	);
 //	shipForward.Normalize();
 //
-//	// Stable right axis (prevents roll)
+//
 //	Vector3 shipRight = worldUp ^ shipForward;
 //	shipRight.Normalize();
 //
-//	// *** NEW: Calculate ship's local up axis ***
 //	Vector3 shipUp = shipForward ^ shipRight;
 //	shipUp.Normalize();
 //
-//	// --- Convert mouse to rotation intent ---
+//
 //	float yawInput = mouseDX;     // left/right
 //	float pitchInput = -mouseDY;    // up/down (invert if needed)
 //
-//	// --- Torque (NO roll component) ---
+//
 //	float turnStrength = 1000.0f;
 //
-//	Vector3 torque =
-//		shipRight * pitchInput * turnStrength +  // pitch
-//		shipUp * yawInput * turnStrength;   // yaw
+//	Vector3 torque = shipRight * pitchInput * turnStrength + shipUp * yawInput * turnStrength;
 //
 //	Vector3 worldOffset = QVRotate(_gameObjects[1]->GetTransform()->GetOrientation(), Vector3(0, 0, 0.6f));
 //
-//	// Apply rotation
-//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, torque.x, 0),
-//		_gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
+//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, torque.x, 0), _gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
 //
-//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(torque.y, 0, 0),
-//		_gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
-//	// After applying rotations, normalize the quaternion to prevent drift
+//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(torque.y, 0, 0), _gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
+//	After applying rotations, normalize the quaternion to prevent drift
 //	Quaternion currentOrientation = _gameObjects[1]->GetTransform()->GetOrientation();
 //	_gameObjects[1]->GetTransform()->SetOrientation(currentOrientation/currentOrientation.Magnitude());
 	//camera controls ^
@@ -719,11 +713,11 @@ void DX11PhysicsFramework::Update()
 	//simpleCount += deltaTime;
 	//Debug::PrintArguments("My name is %i%s \n", 4, ".");
 
-	Vector3 velo = Vector3(0,0,2000);
-	float roll = 200.0f;
-	float pitch = 200.0f;
-	float yaw = 500.0f;
-	float rotateValue = 5000.0f;
+	Vector3 velo = Vector3(0,0,100);
+	float roll = 10.0f;
+	float pitch = 10.0f;
+	float yaw = 20.0f;
+	float rotateValue = 80.0f;
 
 	//not loopinf through all gameobjects since I dont want camera to have physics
 	_gameObjects[1]->hasPhysics = true;
@@ -796,24 +790,6 @@ void DX11PhysicsFramework::Update()
 	}
 
 	m_collisionHandler->ProcessGameObjects(_gameObjects);
-
-	//for (GameObject* g : _gameObjects)
-	//{
-	//	if (g->GetPhysics()->IsCollideable() && _gameObjects[0]->GetPhysics()->IsCollideable())
-	//	{
-	//		if (g->GetPhysics()->GetCollider()->CollidesWith(*_gameObjects[0]->GetPhysics()->GetCollider()))
-	//		{
-	//			Vector3 dir = g->GetPhysics()->GetVelocity();
-	//			dir.Normalize();
-	//			if (dir.y < 0)
-	//			{
-	//				g->GetPhysics()->isSimulatingGravity = false;
-	//				g->GetPhysics()->SetVelocity(Vector3(g->GetPhysics()->GetVelocity().x, 0, g->GetPhysics()->GetVelocity().z));
-	//				Debug::PrintArguments("HitFloor");
-	//			}
-	//		}
-	//	}
-	//}
 
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
