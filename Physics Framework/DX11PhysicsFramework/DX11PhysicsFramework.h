@@ -94,6 +94,7 @@ private:
 	Timer timer;
 	float accumulator = 0.0f;
 	int selectionIndex = 0;
+	bool isPCVersion = true;
 
 	//Force Generator Variables
 	ParticleForceRegistry m_forceRegistry;

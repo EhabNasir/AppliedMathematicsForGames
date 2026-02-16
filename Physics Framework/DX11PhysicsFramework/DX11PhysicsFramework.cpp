@@ -534,17 +534,6 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	gameObject->GetPhysics()->SetInverseMass(0);
 	_gameObjects.push_back(gameObject);
 
-	//Top Floor
-	//GameObject* ceiling = new GameObject("Floor", planeGeometry, noSpecMaterial);
-	//ceiling->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-	//ceiling->GetTransform()->SetScale(150.0f, 150.0f, 0.0f);
-	//ceiling->GetTransform()->SetRotation(90.0f, 0.0f, 0.0f);
-	//ceiling->GetAppearance()->SetTextureRV(_paintTextureRV);
-	//Collider* collider2 = new PlaneCollider(ceiling->GetTransform(), Vector3(0, 1, 0));
-	//ceiling->GetPhysics()->SetCollider(collider2);
-	//ceiling->GetPhysics()->SetInverseMass(0);
-	//_gameObjects.push_back(ceiling);
-
 
 	for (auto i = 0; i < 4; i++)
 	{
@@ -701,23 +690,32 @@ void DX11PhysicsFramework::Update()
 //	Quaternion currentOrientation = _gameObjects[1]->GetTransform()->GetOrientation();
 //	_gameObjects[1]->GetTransform()->SetOrientation(currentOrientation/currentOrientation.Magnitude());
 	//camera controls ^
-	
-	//Static initializes this value only once    
-	//static ULONGLONG frameStart = GetTickCount64();
-
-	//ULONGLONG frameNow = GetTickCount64();
-	//float deltaTime = (frameNow - frameStart) / 1000.0f;
-	//frameStart = frameNow;
-
-	//static float simpleCount = 0.0f;
-	//simpleCount += deltaTime;
-	//Debug::PrintArguments("My name is %i%s \n", 4, ".");
 
 	Vector3 velo = Vector3(0,0,100);
 	float roll = 10.0f;
 	float pitch = 10.0f;
 	float yaw = 20.0f;
 	float rotateValue = 80.0f;
+
+	Vector3 velo_PC = Vector3(0, 0, 10000);
+	float roll_PC = 1000.0f;
+	float pitch_PC = 1000.0f;
+	float yaw_PC = 2000.0f;
+	float rotateValue_PC = 8000.0f;
+
+	Vector3 velo_LAP = Vector3(0, 0, 100);
+	float roll_LAP = 10.0f;
+	float pitch_LAP = 10.0f;
+	float yaw_LAP = 20.0f;
+	float rotateValue_LAP = 80.0f;
+
+	
+	velo = isPCVersion ? velo_PC : velo_LAP;
+	roll = isPCVersion ? roll_PC : roll_LAP;
+	pitch = isPCVersion ? pitch_PC : pitch_LAP;
+	yaw = isPCVersion ? yaw_PC : yaw_LAP;
+	rotateValue = isPCVersion ? rotateValue : rotateValue;
+	
 
 	//not loopinf through all gameobjects since I dont want camera to have physics
 	_gameObjects[1]->hasPhysics = true;
@@ -740,12 +738,10 @@ void DX11PhysicsFramework::Update()
 		}
 	}
 
+	//TOGGLE DEVICE-VERSION
 	if (GetAsyncKeyState('U'))
 	{
-		if (selectionIndex != _selectableObjects.size())
-		{
-			selectionIndex++;
-		}
+		isPCVersion = !isPCVersion;
 	}
 
 	// Move gameobjects
