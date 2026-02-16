@@ -547,7 +547,6 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Gravity);
 		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Drag);
 		m_forceRegistry.AddParticle(gameObject->GetPhysics(), Generator_Thrust);
-
 		_gameObjects.push_back(gameObject);
 		_selectableObjects.push_back(gameObject);
 	}
@@ -564,14 +563,14 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	SpringForce* Generator_Spring2 = new SpringForce(false, _gameObjects[3]->GetPhysics(), 10.3f, 100000.0f);
 	m_forceRegistry.AddParticle(_gameObjects[2]->GetPhysics(), Generator_Spring2);
 
-	SpringForce* Generator_Spring3 = new SpringForce(false, _gameObjects[4]->GetPhysics(), 10.3f, 100000.0f);
-	m_forceRegistry.AddParticle(_gameObjects[3]->GetPhysics(), Generator_Spring3);
+	//SpringForce* Generator_Spring3 = new SpringForce(false, _gameObjects[4]->GetPhysics(), 10.3f, 100000.0f);
+	//m_forceRegistry.AddParticle(_gameObjects[3]->GetPhysics(), Generator_Spring3);
 
 	_gameObjects[1]->GetPhysics()->SetMass(100);
 	_gameObjects[1]->GetTransform()->SetScale(2.0f, 0.8f, 2.0f);
 	_gameObjects[2]->GetTransform()->SetScale(1.4f, 0.4f, 1.4f);
 	_gameObjects[3]->GetTransform()->SetScale(1.0f, 0.4f, 1.0f);
-	_gameObjects[4]->GetTransform()->SetScale(0.6f, 0.4f, 0.6f);
+	//_gameObjects[4]->GetTransform()->SetScale(0.6f, 0.4f, 0.6f);
 
 	//SpringForce* Generator_Spring2 = new SpringForce(_gameObjects[1]->GetPhysics(), 0.0f, 0.9f);
 	//m_forceRegistry.AddParticle(_gameObjects[2]->GetPhysics(), Generator_Spring2);
@@ -579,11 +578,6 @@ HRESULT DX11PhysicsFramework::InitRunTimeData()
 	//ADDING SPRINGS
 	//---------
 
-	gameObject = new GameObject("Donut", herculesGeometry, shinyMaterial);
-	gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
-	gameObject->GetTransform()->SetPosition(-5.0f, 0.5f, 10.0f);
-	gameObject->GetAppearance()->SetTextureRV(_StoneTextureRV);
-	_gameObjects.push_back(gameObject);
 
 	m_collisionHandler = new CollisionHandler();
 
@@ -698,9 +692,9 @@ void DX11PhysicsFramework::Update()
 	float rotateValue = 80.0f;
 
 	Vector3 velo_PC = Vector3(0, 0, 10000);
-	float roll_PC = 1000.0f;
-	float pitch_PC = 1000.0f;
-	float yaw_PC = 2000.0f;
+	float roll_PC = 100.0f;
+	float pitch_PC = 300.0f;
+	float yaw_PC = 500.0f;
 	float rotateValue_PC = 8000.0f;
 
 	Vector3 velo_LAP = Vector3(0, 0, 100);
