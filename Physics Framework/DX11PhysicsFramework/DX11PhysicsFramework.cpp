@@ -628,61 +628,61 @@ DX11PhysicsFramework::~DX11PhysicsFramework()
 void DX11PhysicsFramework::Update()
 {
 //	//camera controls
-//	static POINT lastMouse;
-//
-//	POINT mouse;
-//	GetCursorPos(&mouse);
-//	ScreenToClient(GetActiveWindow(), &mouse);
-//
-//	RECT rect;
-//	GetClientRect(GetActiveWindow(), &rect);
-//	POINT centre;
-//	centre.x = (rect.right - rect.left) / 2;
-//	centre.y = (rect.bottom - rect.top) / 2;
-//
-//	float mouseDX = float(mouse.x - lastMouse.x);
-//	float mouseDY = float(mouse.y - lastMouse.y);
-//	lastMouse = mouse;
-//
-//	float mouseSensitivity = 0.09f;
-//	mouseDX *= mouseSensitivity;
-//	mouseDY *= mouseSensitivity;
-//
-//
-//
-//	Vector3 worldUp(0, 1, 0);
-//
-//
-//	Vector3 shipForward = QVRotate(
-//		_gameObjects[1]->GetTransform()->GetOrientation(),
-//		Vector3(0, 0, 1)
-//	);
-//	shipForward.Normalize();
-//
-//
-//	Vector3 shipRight = worldUp ^ shipForward;
-//	shipRight.Normalize();
-//
-//	Vector3 shipUp = shipForward ^ shipRight;
-//	shipUp.Normalize();
-//
-//
-//	float yawInput = mouseDX;     // left/right
-//	float pitchInput = -mouseDY;    // up/down (invert if needed)
-//
-//
-//	float turnStrength = 1000.0f;
-//
-//	Vector3 torque = shipRight * pitchInput * turnStrength + shipUp * yawInput * turnStrength;
-//
-//	Vector3 worldOffset = QVRotate(_gameObjects[1]->GetTransform()->GetOrientation(), Vector3(0, 0, 0.6f));
-//
-//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, torque.x, 0), _gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
-//
-//	_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(torque.y, 0, 0), _gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
-//	After applying rotations, normalize the quaternion to prevent drift
-//	Quaternion currentOrientation = _gameObjects[1]->GetTransform()->GetOrientation();
-//	_gameObjects[1]->GetTransform()->SetOrientation(currentOrientation/currentOrientation.Magnitude());
+	//static POINT lastMouse;
+
+	//POINT mouse;
+	//GetCursorPos(&mouse);
+	//ScreenToClient(GetActiveWindow(), &mouse);
+
+	//RECT rect;
+	//GetClientRect(GetActiveWindow(), &rect);
+	//POINT centre;
+	//centre.x = (rect.right - rect.left) / 2;
+	//centre.y = (rect.bottom - rect.top) / 2;
+
+	//float mouseDX = float(mouse.x - lastMouse.x);
+	//float mouseDY = float(mouse.y - lastMouse.y);
+	//lastMouse = mouse;
+
+	//float mouseSensitivity = 0.09f;
+	//mouseDX *= mouseSensitivity;
+	//mouseDY *= mouseSensitivity;
+
+
+
+	//Vector3 worldUp(0, 1, 0);
+
+
+	//Vector3 shipForward = QVRotate(
+	//	_gameObjects[1]->GetTransform()->GetOrientation(),
+	//	Vector3(0, 0, 1)
+	//);
+	//shipForward.Normalize();
+
+
+	//Vector3 shipRight = worldUp ^ shipForward;
+	//shipRight.Normalize();
+
+	//Vector3 shipUp = shipForward ^ shipRight;
+	//shipUp.Normalize();
+
+
+	//float yawInput = mouseDX;     // left/right
+	//float pitchInput = -mouseDY;    // up/down (invert if needed)
+
+
+	//float turnStrength = 1000.0f;
+
+	//Vector3 torque = shipRight * pitchInput * turnStrength + shipUp * yawInput * turnStrength;
+
+	//Vector3 worldOffset = QVRotate(_gameObjects[1]->GetTransform()->GetOrientation(), Vector3(0, 0, 0.6f));
+
+	//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(0, torque.x, 0), _gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
+
+	//_gameObjects[1]->GetPhysics()->CalculateRotation(Vector3(torque.y, 0, 0), _gameObjects[1]->GetTransform()->GetPosition() + worldOffset, Vector3(0, 0, 0));
+	////After applying rotations, normalize the quaternion to prevent drift
+	//Quaternion currentOrientation = _gameObjects[1]->GetTransform()->GetOrientation();
+	//_gameObjects[1]->GetTransform()->SetOrientation(currentOrientation/currentOrientation.Magnitude());
 	//camera controls ^
 
 	Vector3 velo = Vector3(0,0,100);
@@ -692,9 +692,9 @@ void DX11PhysicsFramework::Update()
 	float rotateValue = 80.0f;
 
 	Vector3 velo_PC = Vector3(0, 0, 10000);
-	float roll_PC = 100.0f;
-	float pitch_PC = 300.0f;
-	float yaw_PC = 500.0f;
+	float roll_PC = 500.0f;
+	float pitch_PC = 500.0f;
+	float yaw_PC = 700.0f;
 	float rotateValue_PC = 8000.0f;
 
 	Vector3 velo_LAP = Vector3(0, 0, 100);
